@@ -1,0 +1,25 @@
+.DS_Store
+Thumbs.db
+.idea
+*.key
+*.pem
+# Env
+.env*
+
+# Builds
+bin/
+vendor/
+internal/bindata/
+out/
+
+#Robot Framework reporting files
+log.html
+output.xml
+report.html
+
+.python-version
+.venv
+.vscode
+# ignore deployment secret files
+*/**/secrets.yaml
+/database/csv
