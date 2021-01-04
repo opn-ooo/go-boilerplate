@@ -1,0 +1,8 @@
+package requests
+
+// {{ .RequestName }} ... {{ .Description }}
+type {{ .RequestName }} struct {
+    {{range .Requests}}
+	{{.StructName}}  {{.Type}} `json:"{{.Name}}"{{if .IsRequired}} binding:"required"{{end}}`
+	{{end}}
+}

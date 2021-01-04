@@ -1,0 +1,16 @@
+package responses
+
+// {{ .ResponseName }} ... {{ .Description }}
+type {{ .ResponseName }} struct {
+    {{range .Responses}}
+	{{.StructName}}  {{if .Optional }}*{{end}}{{.Type}} `json:"{{.Name}}"`
+	{{end}}
+}
+
+
+// New{{ .ResponseName }} ... Create new {{ .ResponseName }} response
+func New{{ .ResponseName }}() *{{ .ResponseName }} {
+	response := &{{ .ResponseName }}{
+	}
+	return response
+}

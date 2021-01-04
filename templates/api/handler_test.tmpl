@@ -1,0 +1,33 @@
+package handlers
+
+import (
+	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
+)
+
+func TestHandler_{{ .HandlerName }}(t *testing.T) {
+	t.Run("{{ .Description }}", func(t *testing.T) {
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+
+		c.Request = httptest.NewRequest(http.Method{{ .Method }}, "{{ .Path }}", strings.NewReader(""))
+		// Set the request header for testing
+		{{ .AddParamsForTest }}
+
+		handler := createHandler()
+		handler.{{ .HandlerName }}(c)
+		assert.Equal(t, http.StatusOK, w.Result().StatusCode)
+
+		response, err := ioutil.ReadAll(w.Result().Body)
+		var result map[string]interface{}
+		err = json.Unmarshal(response, &result)
+		assert.Nil(t, err)
+	})
+}

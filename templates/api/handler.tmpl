@@ -1,0 +1,15 @@
+package handlers
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"{{ .PackageName }}/internal/http/app/responses"
+)
+
+// {{ .HandlerName }} ... endpoint for {{ .Method }} {{ .Path }}
+func (handler *Handler) {{ .HandlerName }}(c *gin.Context) {
+    {{ .ProcessRequest }}
+
+    {{ .BuildResponse }}
+}
