@@ -17,7 +17,7 @@ func TestHandler_{{ .HandlerName }}(t *testing.T) {
 		w := httptest.NewRecorder()
 		c, _ := gin.CreateTestContext(w)
 
-		c.Request = httptest.NewRequest(http.Method{{ .Method }}, "{{ .Path }}", strings.NewReader(""))
+		c.Request = httptest.NewRequest(http.Method{{ .MethodCamel }}, "{{ .Path }}", strings.NewReader(""))
 		// Set the request header for testing
 		{{ .AddParamsForTest }}
 
