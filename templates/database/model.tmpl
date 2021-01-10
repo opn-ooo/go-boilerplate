@@ -8,9 +8,9 @@ import (
 
 // {{ .ObjectName }} ... {{ .Description }}
 type {{ .ObjectName }} struct {
-{{range .Columns -}}
+{{range .Columns}}
     {{ .ObjectName }} {{ .ObjectType }} `gorm:"{{if .Primary }}primaryKey;{{end}}column:{{ .Name }}" json:"{{ .Name }}"`
-{{end -}}
+{{- end -}}
 	CreatedAt      time.Time `gorm:"column:created_at" json:"createdAt"`
 	UpdatedAt      time.Time `gorm:"column:updated_at" json:"updatedAt"`
 }

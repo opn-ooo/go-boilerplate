@@ -10,10 +10,6 @@ type {{ .ObjectName }}RepositoryInterface interface {
 	Find(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .ObjectName }}, error)
 	Create(model *models.{{ .ObjectName }}) (*models.{{ .ObjectName }}, error)
 	Save(model *models.{{ .ObjectName }}) (*models.{{ .ObjectName }}, error)
-	ByPlatform(platform string) func(*gorm.DB) *gorm.DB
-	NewerThanIntegerVersion(integerVersion int64) func(*gorm.DB) *gorm.DB
-	ByAppVersion(version string) func(*gorm.DB) *gorm.DB
-	ByMustUpdate(mustUpdate bool) func(*gorm.DB) *gorm.DB
 }
 
 // {{ .ObjectName }}Repository ...
@@ -21,7 +17,7 @@ type {{ .ObjectName }}Repository struct {
 	database *gorm.DB
 }
 
-// Find ...
+// Find ... Get entities
 func (repository *{{ .ObjectName }}Repository) Find(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .ObjectName }}, error) {
 	var model models.{{ .ObjectName }}
 	if err := repository.database.Scopes(scopes...).First(&model).Error; err != nil {
@@ -30,7 +26,7 @@ func (repository *{{ .ObjectName }}Repository) Find(scopes ...func(*gorm.DB) *go
 	return &model, nil
 }
 
-// Create ...
+// Create ... Create new entity
 func (repository *{{ .ObjectName }}Repository) Create(model *models.{{ .ObjectName }}) (*models.{{ .ObjectName }}, error) {
 	err := repository.database.Transaction(func(tx *gorm.DB) error {
 		return repository.database.Create(&model).Error
@@ -41,7 +37,7 @@ func (repository *{{ .ObjectName }}Repository) Create(model *models.{{ .ObjectNa
 	return repository.Find(ByID(model.ID))
 }
 
-// Save ...
+// Save ... Update entity
 func (repository *{{ .ObjectName }}Repository) Save(model *models.{{ .ObjectName }}) (*models.{{ .ObjectName }}, error) {
 	err := repository.database.Transaction(func(tx *gorm.DB) error {
 		return repository.database.Save(&model).Error
@@ -52,7 +48,7 @@ func (repository *{{ .ObjectName }}Repository) Save(model *models.{{ .ObjectName
 	return repository.Find(ByID(model.ID))
 }
 
-// New{{ .ObjectName }}Repository ...
+// New{{ .ObjectName }}Repository ... Create new repository
 func New{{ .ObjectName }}Repository(database *gorm.DB) {{ .ObjectName }}RepositoryInterface {
 	return &{{ .ObjectName }}Repository{database: database}
 }
