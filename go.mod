@@ -10,6 +10,7 @@ require (
 	github.com/jinzhu/configor v1.2.1
 	github.com/joho/godotenv v1.3.0
 	github.com/satori/go.uuid v1.2.0
+	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/spf13/cobra v1.1.1
 	github.com/spf13/viper v1.7.1
 	go.uber.org/dig v1.10.0

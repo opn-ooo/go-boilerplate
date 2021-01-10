@@ -4,13 +4,20 @@ import (
 	"time"
 
 	"github.com/bxcodec/faker/v3"
+{{- if .HasJson }}
+    "github.com/jinzhu/gorm/dialects/postgres"
+{{ end }}
+{{- if .HasDecimal }}
+    "github.com/shopspring/decimal"
+{{ end }}
 )
 
 // {{ .ObjectName }} ... {{ .Description }}
 type {{ .ObjectName }} struct {
-{{range .Columns}}
+{{- range .Columns}}
     {{ .ObjectName }} {{ .ObjectType }} `gorm:"{{if .Primary }}primaryKey;{{end}}column:{{ .Name }}" json:"{{ .Name }}"`
 {{- end -}}
+
 	CreatedAt      time.Time `gorm:"column:created_at" json:"createdAt"`
 	UpdatedAt      time.Time `gorm:"column:updated_at" json:"updatedAt"`
 }

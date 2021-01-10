@@ -2,9 +2,10 @@ package responses
 
 // {{ .ResponseName }} ... {{ .Description }}
 type {{ .ResponseName }} struct {
-{{range .Responses}}
+{{- range .Responses}}
 	{{.StructName}} {{if .Optional }}*{{end}}{{.Type}} `json:"{{.Name}}"`
 {{- end -}}
+
 }
 
 

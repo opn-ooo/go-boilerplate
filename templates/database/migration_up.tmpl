@@ -1,7 +1,8 @@
 create table if not exists {{ .Name }} (
-{{range .Columns}}
+{{- range .Columns}}
     {{ .Name }} {{ .DataType }}{{if .Primary }} primary key{{end}},
 {{- end -}}
+
     created_at timestamp with time zone default current_timestamp,
     updated_at timestamp with time zone default current_timestamp
 );
