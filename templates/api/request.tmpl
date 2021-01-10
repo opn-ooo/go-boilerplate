@@ -2,7 +2,7 @@ package requests
 
 // {{ .RequestObjectName }} ... {{ .Description }}
 type {{ .RequestObjectName }} struct {
-{{range .Parameters}}
+{{range .Parameters -}}
 	{{.ObjectName}}  {{.Type}} `json:"{{.Name}}"{{if .IsRequired}} binding:"required"{{end}}`
-{{end}}
+{{end -}}
 }
