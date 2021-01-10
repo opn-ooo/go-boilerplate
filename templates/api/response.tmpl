@@ -4,8 +4,7 @@ package responses
 type {{ .ResponseName }} struct {
 {{- range .Responses}}
 	{{.StructName}} {{if .Optional }}*{{end}}{{.Type}} `json:"{{.Name}}"`
-{{- end -}}
-
+{{- end }}
 }
 
 

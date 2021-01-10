@@ -4,6 +4,5 @@ package requests
 type {{ .RequestObjectName }} struct {
 {{- range .Parameters}}
 	{{.ObjectName}}  {{.Type}} `json:"{{.Name}}"{{if .IsRequired}} binding:"required"{{end}}`
-{{- end -}}
-
+{{- end }}
 }
