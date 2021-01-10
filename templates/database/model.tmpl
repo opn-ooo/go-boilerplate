@@ -8,12 +8,9 @@ import (
 
 // {{ .ObjectName }} ... {{ .Description }}
 type {{ .ObjectName }} struct {
-	ID             uint64    `gorm:"primaryKey;column:id" json:"id"`
-	Platform       string    `gorm:"column:platform" json:"platform"`
-	Version        string    `gorm:"column:version" json:"version"`
-	MustUpdate     bool      `gorm:"column:must_update" json:"mustUpdate"`
-	IntegerVersion int64     `gorm:"column:integer_version" json:"integerVersion"`
-	AvailableFrom  int32     `gorm:"column:available_from" json:"availableFrom"`
+{{range .Columns}}
+    {{ .ObjectName }} {{ .ObjectType }} `gorm:"{{if .Primary }}primaryKey;{{end}}column:{{ .Name }}" json:"{{ .Name }}"`
+{{end}}
 	CreatedAt      time.Time `gorm:"column:created_at" json:"createdAt"`
 	UpdatedAt      time.Time `gorm:"column:updated_at" json:"updatedAt"`
 }
