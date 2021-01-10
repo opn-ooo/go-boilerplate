@@ -22,9 +22,9 @@ type {{ .ObjectName }} struct {
 
 {{- range .Relations}}
 {{- if eq .RelationType "belongsTo" }}
-    {{ .ObjectName }} {{if .MultipleEntities }}[]]{{end}}{{ .Entity.ObjectName }}
+    {{ .ObjectName }} {{if .MultipleEntities }}[]{{end}}{{ .Entity.ObjectName }}
 {{- end -}}
-{{- end -}}
+{{- end }}
 }
 
 // TableName sets the insert table name for this struct type
