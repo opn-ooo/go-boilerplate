@@ -21,7 +21,7 @@ type {{ .ObjectName }} struct {
 	UpdatedAt      time.Time `gorm:"column:updated_at" json:"updatedAt"`
 
 {{- range .Relations}}
-{{- if eq .Type "belongsTo" }}
+{{- if eq .RelationType "belongsTo" }}
     {{ .ObjectName }} {{if .MultipleEntities }}[]]{{end}}{{ .Entity.ObjectName }}
 {{- end -}}
 {{- end -}}
