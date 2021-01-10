@@ -1,0 +1,13 @@
+package models
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func TestGetFake{{ .ObjectName }}(t *testing.T) {
+	model, err := GetFake{{ .ObjectName }}()
+	assert.NoError(t, err)
+	assert.NotNil(t, model)
+}

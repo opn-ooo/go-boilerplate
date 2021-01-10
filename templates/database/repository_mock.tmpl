@@ -1,0 +1,25 @@
+package repositories
+
+import (
+	"{{ .PackageName }}/internal/models"
+	"gorm.io/gorm"
+)
+
+// Mock{{ .ObjectName }}Repository ...
+type Mock{{ .ObjectName }}Repository struct {
+}
+
+// Find ...
+func (repository *Mock{{ .ObjectName }}Repository) Find(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .ObjectName }}, error) {
+	return models.GetFake{{ .ObjectName }}()
+}
+
+// Create ...
+func (repository *Mock{{ .ObjectName }}Repository) Create(model *models.{{ .ObjectName }}) (*models.{{ .ObjectName }}, error) {
+	return model, nil
+}
+
+// Save ...
+func (repository *Mock{{ .ObjectName }}Repository) Save(model *models.{{ .ObjectName }}) (*models.{{ .ObjectName }}, error) {
+	return model, nil
+}

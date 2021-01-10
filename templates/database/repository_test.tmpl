@@ -1,0 +1,34 @@
+package repositories
+
+import (
+	"regexp"
+	"testing"
+
+	"github.com/DATA-DOG/go-sqlmock"
+	"{{ .PackageName }}/internal/database"
+	"github.com/stretchr/testify/assert"
+)
+
+func TestNew{{ .ObjectName }}Repository(t *testing.T) {
+	repository, _ := create{{ .ObjectName }}RepositoryWithMockDB()
+	assert.NotNil(t, repository)
+}
+
+func Test{{ .ObjectName }}Repository_Find(t *testing.T) {
+	repository, mock := create{{ .ObjectName }}RepositoryWithMockDB()
+	id := uint64(123)
+	mock.ExpectQuery(regexp.QuoteMeta(
+		`SELECT * FROM "{{ .Name }}" WHERE id = $1 ORDER BY "{{ .Name }}"."id" LIMIT 1`)).
+		WithArgs(id).
+		WillReturnRows(
+			sqlmock.NewRows([]string{"id"}).AddRow(id))
+
+	_, err := repository.Find(ByID(id))
+	assert.NoError(t, err)
+}
+
+func create{{ .ObjectName }}RepositoryWithMockDB() ({{ .ObjectName }}RepositoryInterface, sqlmock.Sqlmock) {
+	db, mock, _ := database.GetMockDB()
+	repository := New{{ .ObjectName }}Repository(db)
+	return repository, mock
+}
