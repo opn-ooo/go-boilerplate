@@ -287,10 +287,11 @@ components:
       title: {{ .SingularName }}_update
       type: object
       properties:
-{{- range .Entities}}
+{{- range .Columns }}
 {{- if .APIUpdatable -}}
         {{ .Name }}:
           type: {{ .APIType }}
+{{- end }}
 {{- end }}
 {{- end }}
     access_token:
