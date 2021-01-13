@@ -1,0 +1,339 @@
+openapi: 3.0.0
+info:
+  title: AdminAPI
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+{{- range .Entities}}
+  /{{ .Name }}:
+    get:
+      summary: Get {{ .SingularName }} entities
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/{{ .Name }}'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+      operationId: get-{{ .Name }}
+      description: ''
+    post:
+      summary: Create {{ .SingularName }} entity
+      operationId: post-{{ .Name }}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/{{ .SingularName }}'
+      requestBody:
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/{{ .SingularName }}_update'
+  '/{{ .Name }}/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/{{ .SingularName }}'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+      operationId: get-{{ .Name }}-id
+    put:
+      summary: ''
+      operationId: put-{{ .Name }}-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/{{ .SingularName }}'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/{{ .SingularName }}_update'
+    delete:
+      summary: ''
+      operationId: delete-{{ .Name }}-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+{{- end }}
+  /auth/token:
+    post:
+      summary: ''
+      operationId: post-auth-token
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/access_token'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+      description: Get new access token ( Sign in )
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/credential'
+        description: ''
+    delete:
+      summary: ''
+      operationId: delete-auth-token
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status'
+      description: Delete access token ( Sign out )
+components:
+  schemas:
+{{- range .Entities}}
+    {{ .SingularName }}:
+      title: {{ .SingularName }}
+      type: object
+      properties:
+{{- range .Columns}}
+{{- if .Returnable -}}
+        {{ .Name }}:
+          type: {{ .APIType }}
+{{- end -}}
+{{- end }}
+      required:
+{{- range .Columns}}
+{{- if .Returnable -}}
+        - {{ .Name }}
+{{- end -}}
+{{- end }}
+    {{ .Name }}:
+      title: {{ .Name }}
+      type: object
+      properties:
+        {{ .Name }}:
+          type: array
+          items:
+            $ref: '#/components/schemas/{{ .SingularName }}'
+        count:
+          type: integer
+        offset:
+          type: integer
+        limit:
+          type: integer
+      required:
+        - {{ .Name }}
+        - count
+        - offset
+        - limit
+    {{ .SingularName }}_update:
+      title: {{ .SingularName }}_update
+      type: object
+      properties:
+{{- range .Entities}}
+{{- if .APIUpdatable -}}
+        {{ .Name }}:
+          type: {{ .APIType }}
+{{- end }}
+{{- end }}
+    access_token:
+      title: access_token
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: ' The access token string as issued by the server.'
+        token_type:
+          type: string
+          description: 'The type of token this is, always "bearer"'
+      required:
+        - access_token
+        - token_type
+    status:
+      title: status
+      type: object
+      properties:
+        success:
+          type: boolean
+        errors:
+          type: string
+    error:
+      title: error
+      type: object
+      properties:
+        code:
+          type: string
+        debugMessage:
+          type: string
+        {{ .SingularName }}Message:
+          type: string
+      required:
+        - code
+    credential:
+      title: credential
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
