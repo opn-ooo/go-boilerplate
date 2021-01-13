@@ -274,14 +274,14 @@ components:
       type: object
       properties:
 {{- range .Columns}}
-{{- if .Returnable -}}
+{{- if .APIReturnable -}}
         {{ .Name }}:
           type: {{ .APIType }}
 {{- end -}}
 {{- end }}
       required:
 {{- range .Columns}}
-{{- if .Returnable -}}
+{{- if .APIReturnable -}}
         - {{ .Name }}
 {{- end -}}
 {{- end }}
