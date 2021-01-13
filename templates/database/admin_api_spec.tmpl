@@ -278,9 +278,9 @@ components:
           type: {{ .APIType }}{{end}}
 {{ end }}
       required:
-{{- range .Columns -}}
+{{- range .Columns }}
 {{ if .APIReturnable }}        - {{ .Name }}{{ end }}
-{{- end }}
+{{ end -}}
     {{ .Name }}:
       title: {{ .Name }}
       type: object
