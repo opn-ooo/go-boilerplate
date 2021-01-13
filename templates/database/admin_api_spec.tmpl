@@ -278,7 +278,7 @@ components:
         {{ .Name }}:
           type: {{ .APIType }}
 {{- end -}}
-{{- end }}
+{{ end }}
       required:
 {{- range .Columns}}
 {{- if .APIReturnable -}}
@@ -312,7 +312,7 @@ components:
 {{- if .APIUpdatable -}}
         {{ .Name }}:
           type: {{ .APIType }}
-{{- end }}
+{{ end }}
 {{- end }}
 {{- end }}
     access_token:
