@@ -279,7 +279,7 @@ components:
 {{ end }}
       required:
 {{- range .Columns -}}
-{{ if .APIReturnable -}}        - {{ .Name }}{{ end }}
+{{ if .APIReturnable }}        - {{ .Name }}{{ end }}
 {{- end }}
     {{ .Name }}:
       title: {{ .Name }}
