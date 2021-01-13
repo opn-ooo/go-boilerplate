@@ -275,12 +275,12 @@ components:
       properties:
 {{- range .Columns }}
 {{ if .APIReturnable }}        {{ .Name }}:
-          type: {{ .APIType }}{{end}}
+          type: {{ .APIType }}{{end -}}
 {{ end }}
       required:
-{{- range .Columns }}
-{{ if .APIReturnable }}        - {{ .Name }}{{ end }}
-{{ end -}}
+{{ range .Columns }}
+{{ if .APIReturnable }}        - {{ .Name }}{{ end -}}
+{{ end }}
     {{ .Name }}:
       title: {{ .Name }}
       type: object
