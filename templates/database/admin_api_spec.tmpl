@@ -273,11 +273,9 @@ components:
       title: {{ .SingularName }}
       type: object
       properties:
-{{- range .Columns}}
-{{- if .APIReturnable -}}
-        {{ .Name }}:
-          type: {{ .APIType }}
-{{- end -}}
+{{- range .Columns }}
+{{ if .APIReturnable }}        {{ .Name }}:
+          type: {{ .APIType }}{{end}}
 {{ end }}
       required:
 {{- range .Columns}}
@@ -309,11 +307,9 @@ components:
       type: object
       properties:
 {{- range .Columns }}
-{{- if .APIUpdatable -}}
-        {{ .Name }}:
-          type: {{ .APIType }}
+{{ if .APIUpdatable }}        {{ .Name }}:
+          type: {{ .APIType }}{{ end }}
 {{ end }}
-{{- end }}
 {{- end }}
     access_token:
       title: access_token
