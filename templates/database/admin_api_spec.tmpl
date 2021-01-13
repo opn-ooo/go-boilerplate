@@ -43,6 +43,27 @@ paths:
                 $ref: '#/components/schemas/status'
       operationId: get-{{ .Name }}
       description: ''
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: offset
+        - schema:
+            type: string
+          in: query
+          name: limit
+        - schema:
+            type: string
+          in: query
+          name: order
+        - schema:
+            type: string
+          in: query
+          name: direction
+        - schema:
+            type: string
+          in: query
+          name: search
     post:
       summary: Create {{ .SingularName }} entity
       operationId: post-{{ .Name }}
@@ -53,7 +74,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/{{ .SingularName }}'
-      requestBody:
         '400':
           description: Bad Request
           content:
@@ -78,6 +98,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/status'
+      requestBody:
         content:
           application/json:
             schema:
