@@ -278,10 +278,8 @@ components:
           type: {{ .APIType }}{{end}}
 {{ end }}
       required:
-{{- range .Columns}}
-{{- if .APIReturnable -}}
-        - {{ .Name }}
-{{- end -}}
+{{- range .Columns -}}
+{{ if .APIReturnable -}}        - {{ .Name }}{{ end }}
 {{- end }}
     {{ .Name }}:
       title: {{ .Name }}
@@ -306,7 +304,7 @@ components:
       title: {{ .SingularName }}_update
       type: object
       properties:
-{{- range .Columns }}
+{{- range .Columns -}}
 {{ if .APIUpdatable }}        {{ .Name }}:
           type: {{ .APIType }}{{ end }}
 {{ end }}
