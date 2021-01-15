@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"github.com/omiselabs/gin-boilerplate/config"
-	appHandler "github.com/omiselabs/gin-boilerplate/internal/http/app/handlers"
-	appMiddlewares "github.com/omiselabs/gin-boilerplate/internal/http/app/middlewares"
-	"github.com/omiselabs/gin-boilerplate/pkg/database"
-	"github.com/omiselabs/gin-boilerplate/pkg/logger"
-	commonMiddlewares "github.com/omiselabs/gin-boilerplate/pkg/middlewares"
+	"github.com/omiselabs/go-boilerplate/config"
+	appHandler "github.com/omiselabs/go-boilerplate/internal/http/app/handlers"
+	appMiddlewares "github.com/omiselabs/go-boilerplate/internal/http/app/middlewares"
+	"github.com/omiselabs/go-boilerplate/pkg/database"
+	"github.com/omiselabs/go-boilerplate/pkg/logger"
+	commonMiddlewares "github.com/omiselabs/go-boilerplate/pkg/middlewares"
 	"go.uber.org/dig"
 )
 

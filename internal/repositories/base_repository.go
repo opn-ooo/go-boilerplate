@@ -3,7 +3,7 @@ package repositories
 import (
 	"time"
 
-	"github.com/omiselabs/gin-boilerplate/internal/models"
+	"github.com/omiselabs/go-boilerplate/internal/models"
 	"gorm.io/gorm"
 )
 

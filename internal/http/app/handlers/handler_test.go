@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/omiselabs/gin-boilerplate/config"
-	"github.com/omiselabs/gin-boilerplate/pkg/database"
+	"github.com/omiselabs/go-boilerplate/config"
+	"github.com/omiselabs/go-boilerplate/pkg/database"
 )
 
 func createHandler() HandlerInterface {

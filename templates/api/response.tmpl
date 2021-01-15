@@ -1,16 +1,16 @@
 package responses
 
-// {{ .ResponseName }} ... {{ .Description }}
-type {{ .ResponseName }} struct {
-{{- range .Responses}}
-	{{.StructName}} {{if .Optional }}*{{end}}{{.Type}} `json:"{{.Name}}"`
+// {{ .ObjectName }} ... {{ .Description }}
+type {{ .ObjectName }} struct {
+{{- range .Properties}}
+	{{.ObjectName}} {{if eq .Required false }}*{{end}}{{.ObjectType}} `json:"{{.Name}}"`
 {{- end }}
 }
 
 
-// New{{ .ResponseName }} ... Create new {{ .ResponseName }} response
-func New{{ .ResponseName }}() *{{ .ResponseName }} {
-	response := &{{ .ResponseName }}{
+// New{{ .ObjectName }} ... Create new {{ .ObjectName }} response
+func New{{ .ObjectName }}() *{{ .ObjectName }} {
+	response := &{{ .ObjectName }}{
 	}
 	return response
 }

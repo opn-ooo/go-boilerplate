@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/omiselabs/gin-boilerplate/config"
-	"github.com/omiselabs/gin-boilerplate/pkg/logger"
+	"github.com/omiselabs/go-boilerplate/config"
+	"github.com/omiselabs/go-boilerplate/pkg/logger"
 	"go.uber.org/zap"
 )
 

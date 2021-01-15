@@ -1,4 +1,4 @@
-module github.com/omiselabs/gin-boilerplate
+module github.com/omiselabs/go-boilerplate
 
 go 1.15
 

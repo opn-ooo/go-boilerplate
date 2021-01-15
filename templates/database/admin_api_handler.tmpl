@@ -15,6 +15,9 @@ type HandlerInterface interface {
 type Handler struct {
 	db     *gorm.DB
 	config *config.Config
+{{- range .Entities}}
+    {{ .ObjectName }}RepositoryInterface
+{{- end }}
 }
 
 // NewHandler ...

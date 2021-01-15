@@ -5,11 +5,11 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/omiselabs/gin-boilerplate/cmd"
-	"github.com/omiselabs/gin-boilerplate/config"
-	"github.com/omiselabs/gin-boilerplate/internal/http/admin/handlers"
-	adminMiddlewares "github.com/omiselabs/gin-boilerplate/internal/http/admin/middlewares"
-	commonMiddlewares "github.com/omiselabs/gin-boilerplate/pkg/middlewares"
+	"github.com/omiselabs/go-boilerplate/cmd"
+	"github.com/omiselabs/go-boilerplate/config"
+	"github.com/omiselabs/go-boilerplate/internal/http/admin/handlers"
+	adminMiddlewares "github.com/omiselabs/go-boilerplate/internal/http/admin/middlewares"
+	commonMiddlewares "github.com/omiselabs/go-boilerplate/pkg/middlewares"
 	"go.uber.org/dig"
 	"go.uber.org/zap"
 )

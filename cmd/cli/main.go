@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/omiselabs/gin-boilerplate/cmd"
+	"github.com/omiselabs/go-boilerplate/cmd"
 	"os"
 
 	"github.com/spf13/cobra"

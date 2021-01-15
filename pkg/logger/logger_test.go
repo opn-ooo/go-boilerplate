@@ -3,7 +3,7 @@ package logger
 import (
 	"testing"
 
-	"github.com/omiselabs/gin-boilerplate/config"
+	"github.com/omiselabs/go-boilerplate/config"
 	"github.com/stretchr/testify/assert"
 )
 
