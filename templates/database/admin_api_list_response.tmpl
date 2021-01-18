@@ -3,9 +3,7 @@ package responses
 // {{ .ObjectPluralName }} ... {{ .Description }}
 type {{ .ObjectPluralName }} struct {
     Count int `json:"count"`
-{{- range .Properties}}
-	{{.ObjectName}} {{if eq .Required false }}*{{end}}{{.ObjectType}} `json:"{{.Name}}"`
-{{- end }}
+	{{.ObjectPluralName}} []{{.ObjectType}} `json:"{{.Name}}"`
 }
 
 // New{{ .ObjectPluralName }} ... Create new {{ .ObjectPluralName }} response
