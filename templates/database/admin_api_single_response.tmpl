@@ -3,8 +3,10 @@ package responses
 // {{ .ObjectName }} ... {{ .Description }}
 type {{ .ObjectName }} struct {
 {{- range .Columns }}
-{{ if .APIReturnable }}    {{.ObjectName}} {{.ObjectType}} `json:"{{.Name}}"`{{ end -}}
+{{ if .APIReturnable }}    {{.ObjectName}} {{.APIObjectType}} `json:"{{.Name}}"`{{ end -}}
 {{ end }}
+    CreatedAt int64 `json:"created_at"`
+    UpdatedAt int64 `json:"updated_at"`
 }
 
 // New{{ .ObjectName }} ... Create new {{ .ObjectName }} response
@@ -13,6 +15,8 @@ func New{{ .ObjectName }}(model models.{{ .ObjectName }}) *{{ .ObjectName }} {
 {{- range .Columns }}
 {{ if .APIReturnable }}		{{.ObjectName}}: model.{{.ObjectName}},{{ end -}}
 {{ end }}
+		CreatedAt: model.CreatedAt.Unix(),
+        UpdatedAt: model.UpdatedAt.Unix(),
 	}
 	return response
 }

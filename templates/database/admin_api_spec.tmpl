@@ -277,6 +277,10 @@ components:
 {{ if .APIReturnable }}        {{ .Name }}:
           type: {{ .APIType }}{{end -}}
 {{ end }}
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
       required:
 {{- range .Columns }}
 {{ if .APIReturnable }}        - {{ .Name }}{{ end -}}
