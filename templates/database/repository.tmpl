@@ -17,8 +17,30 @@ type {{ .ObjectName }}Repository struct {
 	database *gorm.DB
 }
 
-// Find ... Get entities
-func (repository *{{ .ObjectName }}Repository) Find(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .ObjectName }}, error) {
+// Get ... Get multiple entities
+func (repository *{{ .ObjectName }}Repository) Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .ObjectName }}, error) {
+	var models []models.{{ .ObjectName }}
+
+	if err := repository.database.Scopes(scopes...).Find(&models).Error; err != nil {
+		return nil, err
+	}
+
+	return &models, nil
+}
+
+// Count ... Count entities
+func (repository *{{ .ObjectName }}Repository) Count(scopes ...func(*gorm.DB) *gorm.DB) (int64, error) {
+	var count int64
+
+	if err := repository.database.Scopes(scopes...).Count(&count).Error; err != nil {
+		return nil, err
+	}
+
+	return count, nil
+}
+
+// First ... Get single entity
+func (repository *{{ .ObjectName }}Repository) First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .ObjectName }}, error) {
 	var model models.{{ .ObjectName }}
 	if err := repository.database.Scopes(scopes...).First(&model).Error; err != nil {
 		return nil, err

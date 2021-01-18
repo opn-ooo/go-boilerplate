@@ -1,0 +1,18 @@
+package responses
+
+// {{ .ObjectPluralName }} ... {{ .Description }}
+type {{ .ObjectPluralName }} struct {
+    Count int `json:"count"`
+{{- range .Properties}}
+	{{.ObjectName}} {{if eq .Required false }}*{{end}}{{.ObjectType}} `json:"{{.Name}}"`
+{{- end }}
+}
+
+// New{{ .ObjectPluralName }} ... Create new {{ .ObjectPluralName }} response
+func New{{ .ObjectPluralName }}(models []*models.{{ .ObjectName }}, count int64) *{{ .ObjectPluralName }} {
+
+	response := &{{ .ObjectPluralName }}{
+	    Count: count,
+	}
+	return response
+}

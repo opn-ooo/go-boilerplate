@@ -1,0 +1,136 @@
+package handlers
+
+import (
+    "errors"
+
+    "{{ .PackageName }}/internal/repositories"
+    "gorm.io/gorm"
+    "net/http"
+    "strconv"
+    "strings"
+
+    "github.com/gin-gonic/gin"
+    "{{ .PackageName }}/internal/http/admin/responses"
+)
+
+// {{ .ObjectPluralName }}GetHandler ... endpoint for GET /{{ .Name }}
+func (handler *Handler) {{ .ObjectPluralName }}GetHandler(c *gin.Context) {
+    offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
+    if err != nil || offset < 0 {
+        offset = 0
+    }
+    limit, err := strconv.Atoi(c.DefaultQuery("limit", "20"))
+    if err != nil || limit < 1 || limit > 100 {
+        limit = 20
+    }
+    order := strings.ToLower(c.DefaultQuery("order", "id"))
+    found := false
+    for _, column := range []string{
+        "id",
+        "name",
+    }{
+        if column == order {
+            found = true
+        }
+    }
+    if !found {
+        order = "id"
+    }
+    direction := strings.ToLower(c.DefaultQuery("direction", "asc"))
+    if direction != "desc" && direction != "asc" {
+        direction = "asc"
+    }
+
+    {{ .Name }}, err := handler.{{ .SingularName }}Repository.Get(
+        repositories.Limit(limit),
+        repositories.Offset(offset),
+        repositories.OrderBy(order + " " +direction),
+    )
+
+    response := responses.New{{ .ObjectPluralName }}({{ .Name }})
+    c.JSON(http.StatusOK, response)
+}
+
+// {{ .ObjectName }}GetHandler ... endpoint for GET /{{ .Name }}/{id}
+func (handler *Handler) {{ .ObjectName }}GetHandler(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
+        return
+    }
+    model, err := handler.{{ .SingularName }}Repository.Find(
+        repositories.ByID(id),
+    )
+    if err != nil {
+        if errors.Is(err, gorm.ErrRecordNotFound) {
+            c.JSON(http.StatusNotFound, responses.NewNotFoundError("Not Found"))
+        }else{
+            c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
+        }
+        return
+    }
+    response := responses.New{{ .ObjectName }}(model)
+    c.JSON(http.StatusOK, response)
+}
+
+// {{ .ObjectPluralName }}PostHandler ... endpoint for POST /{{ .Name }}
+func (handler *Handler) {{ .ObjectPluralName }}PostHandler(c *gin.Context) {
+
+}
+
+// {{ .ObjectName }}PutHandler ... endpoint for POST endpoint for PUT /{{ .Name }}/{id}
+func (handler *Handler) {{ .ObjectName }}PutHandler(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
+        return
+    }
+    model, err := handler.{{ .SingularName }}Repository.Find(
+        repositories.ByID(id),
+    )
+    if err != nil {
+        if errors.Is(err, gorm.ErrRecordNotFound) {
+            c.JSON(http.StatusNotFound, responses.NewNotFoundError("Not Found"))
+        }else{
+            c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
+        }
+        return
+    }
+    var update requests.{{ .ObjectName }}Update
+    if err := c.Bind(&update); err != nil {
+        c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
+        return
+    }
+    model.Name = update.Name
+    model, err = handler.{{ .SingularName }}Repository.Save(model)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
+        return
+    }
+    response := responses.New{{ .ObjectName }}(model)
+    c.JSON(http.StatusOK, response)
+}
+
+// {{ .ObjectName }}DeleteHandler ... endpoint for DELETE endpoint for PUT /{{ .Name }}/{id}
+func (handler *Handler) {{ .ObjectName }}DeleteHandler(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
+        return
+    }
+    model, err := handler.{{ .SingularName }}Repository.Find(
+        repositories.ByID(id),
+    )
+    if err != nil {
+        if errors.Is(err, gorm.ErrRecordNotFound) {
+            c.JSON(http.StatusNotFound, responses.NewNotFoundError("Not Found"))
+        }else{
+            c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
+        }
+        return
+    }
+    err := handler.{{ .SingularName }}Repository.Delete(model)
+    response := responses.NewSuccessStatus()
+    c.JSON(http.StatusOK, response)
+}
+

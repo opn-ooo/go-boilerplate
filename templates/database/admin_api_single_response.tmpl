@@ -1,0 +1,18 @@
+package responses
+
+// {{ .ObjectName }} ... {{ .Description }}
+type {{ .ObjectName }} struct {
+{{- range .Columns }}
+{{ if .APIReturnable }}    {{.ObjectName}} {{.ObjectType}} `json:"{{.Name}}"`{{ end -}}
+{{ end }}
+}
+
+// New{{ .ObjectName }} ... Create new {{ .ObjectName }} response
+func New{{ .ObjectName }}(model models.{{ .ObjectName }}) *{{ .ObjectName }} {
+	response := &{{ .ObjectName }}{
+{{- range .Columns }}
+{{ if .APIReturnable }}		{{.ObjectName}}: model.{{.ObjectName}},{{ end -}}
+{{ end }}
+	}
+	return response
+}
