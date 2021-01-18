@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/omiselabs/go-boilerplate/config"
+	"github.com/opn-ooo/go-boilerplate/config"
 	"gorm.io/gorm"
 )
 

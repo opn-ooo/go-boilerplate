@@ -2,7 +2,7 @@ package logger
 
 import (
 	"github.com/blendle/zapdriver"
-	"github.com/omiselabs/go-boilerplate/config"
+	"github.com/opn-ooo/go-boilerplate/config"
 	"go.uber.org/zap"
 )
 

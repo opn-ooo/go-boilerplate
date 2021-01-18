@@ -1,0 +1,8 @@
+package requests
+
+// {{ .ObjectName }}Update ... Object for {{ .ObjectName }} create / update
+type {{ .ObjectName }}Update struct {
+{{- range .Columns }}
+{{ if .APIUpdatable }}    {{.ObjectName}} *{{.ObjectType}} `json:"{{.Name}}"`{{ end -}}
+{{ end }}
+}

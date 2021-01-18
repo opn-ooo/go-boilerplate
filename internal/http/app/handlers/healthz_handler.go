@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/omiselabs/go-boilerplate/internal/http/app/responses"
-	"github.com/omiselabs/go-boilerplate/pkg/database"
+	"github.com/opn-ooo/go-boilerplate/internal/http/app/responses"
+	"github.com/opn-ooo/go-boilerplate/pkg/database"
 )
 
 // HealthzHandler ... endpoint for checking health

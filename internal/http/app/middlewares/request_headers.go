@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/omiselabs/go-boilerplate/internal/http/app/responses"
+	"github.com/opn-ooo/go-boilerplate/internal/http/app/responses"
 )
 
 // RequestHeaders ... Parse Request Headers

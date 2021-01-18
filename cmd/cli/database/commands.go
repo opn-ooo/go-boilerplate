@@ -8,7 +8,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/spf13/cobra"
 
-	"github.com/omiselabs/go-boilerplate/pkg/database"
+	"github.com/opn-ooo/go-boilerplate/pkg/database"
 )
 
 func getDBConnection() *gorm.DB {

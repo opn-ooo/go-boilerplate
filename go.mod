@@ -1,4 +1,4 @@
-module github.com/omiselabs/go-boilerplate
+module github.com/opn-ooo/go-boilerplate
 
 go 1.15
 
