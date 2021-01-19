@@ -42,13 +42,29 @@ func (handler *Handler) {{ .Name.Plural.Title }}GetHandler(c *gin.Context) {
         direction = "asc"
     }
 
-    {{ .Name.Original }}, err := handler.{{ .Name.Singular.Camel }}Repository.Get(
+    data, err := handler.{{ .Name.Singular.Camel }}Repository.Get(
         repositories.Limit(limit),
         repositories.Offset(offset),
         repositories.OrderBy(order + " " +direction),
     )
-
-    response := responses.New{{ .Name.Plural.Title }}({{ .Name.Original }})
+    if err != nil {
+        if errors.Is(err, gorm.ErrRecordNotFound) {
+            response := responses.New{{ .Name.Plural.Title }}(&[]models.{{ .Name.Singular.Title }}{}, 0)
+            c.JSON(http.StatusOK, response)
+        }else{
+            c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
+        }
+        return
+    }
+    count, err := handler.{{ .Name.Singular.Camel }}Repository.Count(
+        repositories.Limit(limit),
+        repositories.Offset(offset),
+        repositories.OrderBy(order + " " +direction),
+    )
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
+    }
+    response := responses.New{{ .Name.Plural.Title }}(data, count)
     c.JSON(http.StatusOK, response)
 }
 
@@ -59,7 +75,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}GetHandler(c *gin.Context) {
         c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
         return
     }
-    model, err := handler.{{ .Name.Singular.Camel }}Repository.Find(
+    model, err := handler.{{ .Name.Singular.Camel }}Repository.First(
         repositories.ByID(id),
     )
     if err != nil {
@@ -86,7 +102,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
         c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
         return
     }
-    model, err := handler.{{ .Name.Singular.Camel }}Repository.Find(
+    model, err := handler.{{ .Name.Singular.Camel }}Repository.First(
         repositories.ByID(id),
     )
     if err != nil {
@@ -119,7 +135,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}DeleteHandler(c *gin.Context) 
         c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
         return
     }
-    model, err := handler.{{ .Name.Singular.Camel }}Repository.Find(
+    model, err := handler.{{ .Name.Singular.Camel }}Repository.First(
         repositories.ByID(id),
     )
     if err != nil {
