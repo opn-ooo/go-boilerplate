@@ -5,7 +5,7 @@ import "{{ .PackageName }}/internal/models"
 // {{ .Name.Plural.Title }} ... {{ .Description }}
 type {{ .Name.Plural.Title }} struct {
     Count int64 `json:"count"`
-	{{.Name.Plural.Title }} []{{.ObjectName}} `json:"{{.Name.Plural.Snake }}"`
+	{{.Name.Plural.Title }} []{{.Name.Singular.Title }} `json:"{{.Name.Plural.Snake }}"`
 }
 
 // New{{ .Name.Plural.Title }} ... Create new {{ .Name.Plural.Title }} response
