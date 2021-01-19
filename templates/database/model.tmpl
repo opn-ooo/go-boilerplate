@@ -22,7 +22,7 @@ type {{ .Name.Singular.Title }} struct {
 
 {{- range .Relations}}
 {{- if eq .RelationType "belongsTo" }}
-    {{ .ObjectName }} {{if .MultipleEntities }}[]{{end}}{{ .Entity.ObjectName }}
+    {{ .ObjectName }} {{if .MultipleEntities }}[]{{end}}{{ .Entity.Name.Singular.Title }}
 {{- end -}}
 {{- end }}
 }
