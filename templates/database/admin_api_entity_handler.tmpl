@@ -42,7 +42,7 @@ func (handler *Handler) {{ .Name.Plural.Title }}GetHandler(c *gin.Context) {
         direction = "asc"
     }
 
-    {{ .Name.Original }}, err := handler.{{ .Name.Singular.Title }}Repository.Get(
+    {{ .Name.Original }}, err := handler.{{ .Name.Singular.Camel }}Repository.Get(
         repositories.Limit(limit),
         repositories.Offset(offset),
         repositories.OrderBy(order + " " +direction),
@@ -59,7 +59,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}GetHandler(c *gin.Context) {
         c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
         return
     }
-    model, err := handler.{{ .Name.Singular.Title }}Repository.Find(
+    model, err := handler.{{ .Name.Singular.Camel }}Repository.Find(
         repositories.ByID(id),
     )
     if err != nil {
