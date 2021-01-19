@@ -6,9 +6,9 @@ servers:
   - url: 'http://localhost:3000'
 paths:
 {{- range .Entities}}
-  /{{ .Name }}:
+  /{{ .Name.Original }}:
     get:
-      summary: Get {{ .SingularName }} entities
+      summary: Get {{ .Name.Singular.Snake }} entities
       tags: []
       responses:
         '200':
@@ -16,7 +16,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/{{ .Name }}'
+                $ref: '#/components/schemas/{{ .Name.Original }}'
         '400':
           description: Bad Request
           content:
@@ -41,7 +41,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/status'
-      operationId: get-{{ .Name }}
+      operationId: get-{{ .Name.Original }}
       description: ''
       parameters:
         - schema:
@@ -65,15 +65,15 @@ paths:
           in: query
           name: search
     post:
-      summary: Create {{ .SingularName }} entity
-      operationId: post-{{ .Name }}
+      summary: Create {{ .Name.Singular.Snake }} entity
+      operationId: post-{{ .Name.Original }}
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/{{ .SingularName }}'
+                $ref: '#/components/schemas/{{ .Name.Singular.Snake }}'
         '400':
           description: Bad Request
           content:
@@ -102,8 +102,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/{{ .SingularName }}_update'
-  '/{{ .Name }}/{id}':
+              $ref: '#/components/schemas/{{ .Name.Singular.Snake }}_update'
+  '/{{ .Name.Original }}/{id}':
     parameters:
       - schema:
           type: string
@@ -119,7 +119,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/{{ .SingularName }}'
+                $ref: '#/components/schemas/{{ .Name.Singular.Snake }}'
         '400':
           description: Bad Request
           content:
@@ -144,17 +144,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/status'
-      operationId: get-{{ .Name }}-id
+      operationId: get-{{ .Name.Original }}-id
     put:
       summary: ''
-      operationId: put-{{ .Name }}-id
+      operationId: put-{{ .Name.Original }}-id
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/{{ .SingularName }}'
+                $ref: '#/components/schemas/{{ .Name.Singular.Snake }}'
         '400':
           description: Bad Request
           content:
@@ -183,10 +183,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/{{ .SingularName }}_update'
+              $ref: '#/components/schemas/{{ .Name.Singular.Snake }}_update'
     delete:
       summary: ''
-      operationId: delete-{{ .Name }}-id
+      operationId: delete-{{ .Name.Original }}-id
       responses:
         '200':
           description: OK
@@ -269,12 +269,12 @@ paths:
 components:
   schemas:
 {{- range .Entities}}
-    {{ .SingularName }}:
-      title: {{ .SingularName }}
+    {{ .Name.Singular.Snake }}:
+      title: {{ .Name.Singular.Snake }}
       type: object
       properties:
 {{- range .Columns }}
-{{ if .APIReturnable }}        {{ .Name }}:
+{{ if .APIReturnable }}        {{ .Name.Original }}:
           type: {{ .APIType }}{{end -}}
 {{ end }}
         created_at:
@@ -283,16 +283,16 @@ components:
           type: integer
       required:
 {{- range .Columns }}
-{{ if .APIReturnable }}        - {{ .Name }}{{ end -}}
+{{ if .APIReturnable }}        - {{ .Name.Original }}{{ end -}}
 {{ end }}
-    {{ .Name }}:
-      title: {{ .Name }}
+    {{ .Name.Original }}:
+      title: {{ .Name.Original }}
       type: object
       properties:
-        {{ .Name }}:
+        {{ .Name.Original }}:
           type: array
           items:
-            $ref: '#/components/schemas/{{ .SingularName }}'
+            $ref: '#/components/schemas/{{ .Name.Singular.Snake }}'
         count:
           type: integer
         offset:
@@ -300,16 +300,16 @@ components:
         limit:
           type: integer
       required:
-        - {{ .Name }}
+        - {{ .Name.Original }}
         - count
         - offset
         - limit
-    {{ .SingularName }}_update:
-      title: {{ .SingularName }}_update
+    {{ .Name.Singular.Snake }}_update:
+      title: {{ .Name.Singular.Snake }}_update
       type: object
       properties:
 {{- range .Columns }}
-{{ if .APIUpdatable }}        {{ .Name }}:
+{{ if .APIUpdatable }}        {{ .Name.Original }}:
           type: {{ .APIType }}{{ end -}}
 {{ end }}
 {{- end }}

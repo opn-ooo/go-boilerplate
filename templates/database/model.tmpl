@@ -12,10 +12,10 @@ import (
 {{ end }}
 )
 
-// {{ .ObjectName }} ... {{ .Description }}
-type {{ .ObjectName }} struct {
+// {{ .Name.Singular.Title }} ... {{ .Description }}
+type {{ .Name.Singular.Title }} struct {
 {{- range .Columns}}
-    {{ .ObjectName }} {{ .ObjectType }} `gorm:"{{if .Primary }}primaryKey;{{end}}column:{{ .Name }}" json:"{{ .Name }}"`
+    {{ .ObjectName }} {{ .ObjectType }} `gorm:"{{if .Primary }}primaryKey;{{end}}column:{{ .Name.Original }}" json:"{{ .Name.Original }}"`
 {{- end }}
 	CreatedAt      time.Time `gorm:"column:created_at" json:"createdAt"`
 	UpdatedAt      time.Time `gorm:"column:updated_at" json:"updatedAt"`
@@ -28,13 +28,13 @@ type {{ .ObjectName }} struct {
 }
 
 // TableName sets the insert table name for this struct type
-func (entity *{{ .ObjectName }}) TableName() string {
-	return "{{ .Name }}"
+func (entity *{{ .Name.Singular.Title }}) TableName() string {
+	return "{{ .Name.Original }}"
 }
 
-// GetFake{{ .ObjectName }} ... get fake {{ .ObjectName }} model
-func GetFake{{ .ObjectName }}() (*{{ .ObjectName }}, error) {
-	entity := &{{ .ObjectName }}{}
+// GetFake{{ .Name.Singular.Title }} ... get fake {{ .Name.Singular.Title }} model
+func GetFake{{ .Name.Singular.Title }}() (*{{ .Name.Singular.Title }}, error) {
+	entity := &{{ .Name.Singular.Title }}{}
 	err := faker.FakeData(entity)
 
 	if err != nil {

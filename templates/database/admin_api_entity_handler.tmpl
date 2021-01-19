@@ -14,8 +14,8 @@ import (
     "{{ .PackageName }}/internal/http/admin/responses"
 )
 
-// {{ .ObjectPluralName }}GetHandler ... endpoint for GET /{{ .Name }}
-func (handler *Handler) {{ .ObjectPluralName }}GetHandler(c *gin.Context) {
+// {{ .Name.Plural.Title }}GetHandler ... endpoint for GET /{{ .Name.Original }}
+func (handler *Handler) {{ .Name.Plural.Title }}GetHandler(c *gin.Context) {
     offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
     if err != nil || offset < 0 {
         offset = 0
@@ -42,24 +42,24 @@ func (handler *Handler) {{ .ObjectPluralName }}GetHandler(c *gin.Context) {
         direction = "asc"
     }
 
-    {{ .Name }}, err := handler.{{ .SingularName }}Repository.Get(
+    {{ .Name.Original }}, err := handler.{{ .Name.Singular.Title }}Repository.Get(
         repositories.Limit(limit),
         repositories.Offset(offset),
         repositories.OrderBy(order + " " +direction),
     )
 
-    response := responses.New{{ .ObjectPluralName }}({{ .Name }})
+    response := responses.New{{ .Name.Plural.Title }}({{ .Name.Original }})
     c.JSON(http.StatusOK, response)
 }
 
-// {{ .ObjectName }}GetHandler ... endpoint for GET /{{ .Name }}/{id}
-func (handler *Handler) {{ .ObjectName }}GetHandler(c *gin.Context) {
+// {{ .Name.Singular.Title }}GetHandler ... endpoint for GET /{{ .Name.Original }}/{id}
+func (handler *Handler) {{ .Name.Singular.Title }}GetHandler(c *gin.Context) {
     id, err := strconv.ParseUint(c.Param("id"), 10, 64)
     if err != nil {
         c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
         return
     }
-    model, err := handler.{{ .SingularName }}Repository.Find(
+    model, err := handler.{{ .Name.Singular.Title }}Repository.Find(
         repositories.ByID(id),
     )
     if err != nil {
@@ -70,23 +70,23 @@ func (handler *Handler) {{ .ObjectName }}GetHandler(c *gin.Context) {
         }
         return
     }
-    response := responses.New{{ .ObjectName }}(model)
+    response := responses.New{{ .Name.Singular.Title }}(model)
     c.JSON(http.StatusOK, response)
 }
 
-// {{ .ObjectPluralName }}PostHandler ... endpoint for POST /{{ .Name }}
-func (handler *Handler) {{ .ObjectPluralName }}PostHandler(c *gin.Context) {
+// {{ .Name.Plural.Title }}PostHandler ... endpoint for POST /{{ .Name.Original }}
+func (handler *Handler) {{ .Name.Plural.Title }}PostHandler(c *gin.Context) {
 
 }
 
-// {{ .ObjectName }}PutHandler ... endpoint for POST endpoint for PUT /{{ .Name }}/{id}
-func (handler *Handler) {{ .ObjectName }}PutHandler(c *gin.Context) {
+// {{ .Name.Singular.Title }}PutHandler ... endpoint for POST endpoint for PUT /{{ .Name.Original }}/{id}
+func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
     id, err := strconv.ParseUint(c.Param("id"), 10, 64)
     if err != nil {
         c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
         return
     }
-    model, err := handler.{{ .SingularName }}Repository.Find(
+    model, err := handler.{{ .Name.Singular.Camel }}Repository.Find(
         repositories.ByID(id),
     )
     if err != nil {
@@ -97,29 +97,29 @@ func (handler *Handler) {{ .ObjectName }}PutHandler(c *gin.Context) {
         }
         return
     }
-    var update requests.{{ .ObjectName }}Update
+    var update requests.{{ .Name.Singular.Title }}Update
     if err := c.Bind(&update); err != nil {
         c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
         return
     }
     model.Name = update.Name
-    model, err = handler.{{ .SingularName }}Repository.Save(model)
+    model, err = handler.{{ .Name.Singular.Camel }}Repository.Save(model)
     if err != nil {
         c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
         return
     }
-    response := responses.New{{ .ObjectName }}(model)
+    response := responses.New{{ .Name.Singular.Title }}(model)
     c.JSON(http.StatusOK, response)
 }
 
-// {{ .ObjectName }}DeleteHandler ... endpoint for DELETE endpoint for PUT /{{ .Name }}/{id}
-func (handler *Handler) {{ .ObjectName }}DeleteHandler(c *gin.Context) {
+// {{ .Name.Singular.Title }}DeleteHandler ... endpoint for DELETE endpoint for PUT /{{ .Name.Original }}/{id}
+func (handler *Handler) {{ .Name.Singular.Title }}DeleteHandler(c *gin.Context) {
     id, err := strconv.ParseUint(c.Param("id"), 10, 64)
     if err != nil {
         c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
         return
     }
-    model, err := handler.{{ .SingularName }}Repository.Find(
+    model, err := handler.{{ .Name.Singular.Camel }}Repository.Find(
         repositories.ByID(id),
     )
     if err != nil {
@@ -130,7 +130,7 @@ func (handler *Handler) {{ .ObjectName }}DeleteHandler(c *gin.Context) {
         }
         return
     }
-    err := handler.{{ .SingularName }}Repository.Delete(model)
+    err := handler.{{ .Name.Singular.Camel }}Repository.Delete(model)
     response := responses.NewSuccessStatus()
     c.JSON(http.StatusOK, response)
 }

@@ -1,10 +1,10 @@
-create table if not exists {{ .Name }} (
+create table if not exists {{ .Name.Original }} (
 {{- range .Columns}}
-    {{ .Name }} {{ .DataType }}{{if .Primary }} primary key{{end}},
+    {{ .Name.Original }} {{ .DataType }}{{if .Primary }} primary key{{end}},
 {{- end }}
     created_at timestamp with time zone default current_timestamp,
     updated_at timestamp with time zone default current_timestamp
 );
 
-create trigger update_trigger before update on {{ .Name }} for each row
+create trigger update_trigger before update on {{ .Name.Original }} for each row
   execute procedure update_updated_at();

@@ -16,7 +16,7 @@ type Handler struct {
 	db     *gorm.DB
 	config *config.Config
 {{- range .Entities}}
-    {{ .CamelName }}Repository repositories.{{ .ObjectName }}RepositoryInterface
+    {{ .Name.Singular.Camel }}Repository repositories.{{ .Name.Singular.Title }}RepositoryInterface
 {{- end }}
 }
 
@@ -25,14 +25,14 @@ func NewHandler(
 	db *gorm.DB,
 	config *config.Config,
 {{- range .Entities}}
-    {{ .CamelName }}Repository {{ .ObjectName }}RepositoryInterface,
+    {{ .Name.Singular.Camel }}Repository repositories.{{ .Name.Singular.Title }}RepositoryInterface,
 {{- end }}
 ) HandlerInterface {
 	return &Handler{
 		db:     db,
 		config: config,
 {{- range .Entities}}
-		{{ .CamelName }}Repository: {{ .CamelName }}Repository,
+		{{ .Name.Singular.Camel }}Repository: {{ .Name.Singular.Camel }}Repository,
 {{- end }}
 	}
 }

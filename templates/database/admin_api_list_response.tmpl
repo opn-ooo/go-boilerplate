@@ -2,21 +2,21 @@ package responses
 
 import "{{ .PackageName }}/internal/models"
 
-// {{ .ObjectPluralName }} ... {{ .Description }}
-type {{ .ObjectPluralName }} struct {
+// {{ .Name.Plural.Title }} ... {{ .Description }}
+type {{ .Name.Plural.Title }} struct {
     Count int64 `json:"count"`
 	{{.ObjectPluralName}} []{{.ObjectName}} `json:"{{.Name}}"`
 }
 
-// New{{ .ObjectPluralName }} ... Create new {{ .ObjectPluralName }} response
-func New{{ .ObjectPluralName }}(models *[]models.{{ .ObjectName }}, count int64) *{{ .ObjectPluralName }} {
-    slice := []{{ .ObjectName }}{}
+// New{{ .Name.Plural.Title }} ... Create new {{ .Name.Plural.Title }} response
+func New{{ .Name.Plural.Title }}(models *[]models.{{ .Name.Singular.Title }}, count int64) *{{ .Name.Plural.Title }} {
+    slice := []{{ .Name.Singular.Title }}{}
     for _, model := range *models {
-        slice = append(slice, *New{{ .ObjectName }}(&model))
+        slice = append(slice, *New{{ .Name.Singular.Title }}(&model))
     }
-	response := &{{ .ObjectPluralName }}{
+	response := &{{ .Name.Plural.Title }}{
 	    Count: count,
-	    {{ .ObjectPluralName }}: slice,
+	    {{ .Name.Plural.Title }}: slice,
 	}
 	return response
 }

@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetFake{{ .ObjectName }}(t *testing.T) {
-	model, err := GetFake{{ .ObjectName }}()
+func TestGetFake{{ .Name.Singular.Title }}(t *testing.T) {
+	model, err := GetFake{{ .Name.Singular.Title }}()
 	assert.NoError(t, err)
 	assert.NotNil(t, model)
 }

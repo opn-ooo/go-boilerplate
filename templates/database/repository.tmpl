@@ -5,21 +5,21 @@ import (
 	"gorm.io/gorm"
 )
 
-// {{ .ObjectName }}RepositoryInterface ...
-type {{ .ObjectName }}RepositoryInterface interface {
-	Find(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .ObjectName }}, error)
-	Create(model *models.{{ .ObjectName }}) (*models.{{ .ObjectName }}, error)
-	Save(model *models.{{ .ObjectName }}) (*models.{{ .ObjectName }}, error)
+// {{ .Name.Singular.Title }}RepositoryInterface ...
+type {{ .Name.Singular.Title }}RepositoryInterface interface {
+	Find(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error)
+	Create(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
+	Save(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
 }
 
-// {{ .ObjectName }}Repository ...
-type {{ .ObjectName }}Repository struct {
+// {{ .Name.Singular.Title }}Repository ...
+type {{ .Name.Singular.Title }}Repository struct {
 	database *gorm.DB
 }
 
 // Get ... Get multiple entities
-func (repository *{{ .ObjectName }}Repository) Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .ObjectName }}, error) {
-	var models []models.{{ .ObjectName }}
+func (repository *{{ .Name.Singular.Title }}Repository) Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error) {
+	var models []models.{{ .Name.Singular.Title }}
 
 	if err := repository.database.Scopes(scopes...).Find(&models).Error; err != nil {
 		return nil, err
@@ -29,7 +29,7 @@ func (repository *{{ .ObjectName }}Repository) Get(scopes ...func(*gorm.DB) *gor
 }
 
 // Count ... Count entities
-func (repository *{{ .ObjectName }}Repository) Count(scopes ...func(*gorm.DB) *gorm.DB) (int64, error) {
+func (repository *{{ .Name.Singular.Title }}Repository) Count(scopes ...func(*gorm.DB) *gorm.DB) (int64, error) {
 	var count int64
 
 	if err := repository.database.Scopes(scopes...).Count(&count).Error; err != nil {
@@ -40,8 +40,8 @@ func (repository *{{ .ObjectName }}Repository) Count(scopes ...func(*gorm.DB) *g
 }
 
 // First ... Get single entity
-func (repository *{{ .ObjectName }}Repository) First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .ObjectName }}, error) {
-	var model models.{{ .ObjectName }}
+func (repository *{{ .Name.Singular.Title }}Repository) First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error) {
+	var model models.{{ .Name.Singular.Title }}
 	if err := repository.database.Scopes(scopes...).First(&model).Error; err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (repository *{{ .ObjectName }}Repository) First(scopes ...func(*gorm.DB) *g
 }
 
 // Create ... Create new entity
-func (repository *{{ .ObjectName }}Repository) Create(model *models.{{ .ObjectName }}) (*models.{{ .ObjectName }}, error) {
+func (repository *{{ .Name.Singular.Title }}Repository) Create(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
 	err := repository.database.Transaction(func(tx *gorm.DB) error {
 		return repository.database.Create(&model).Error
 	})
@@ -60,7 +60,7 @@ func (repository *{{ .ObjectName }}Repository) Create(model *models.{{ .ObjectNa
 }
 
 // Save ... Update entity
-func (repository *{{ .ObjectName }}Repository) Save(model *models.{{ .ObjectName }}) (*models.{{ .ObjectName }}, error) {
+func (repository *{{ .Name.Singular.Title }}Repository) Save(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
 	err := repository.database.Transaction(func(tx *gorm.DB) error {
 		return repository.database.Save(&model).Error
 	})
@@ -70,7 +70,7 @@ func (repository *{{ .ObjectName }}Repository) Save(model *models.{{ .ObjectName
 	return repository.Find(ByID(model.ID))
 }
 
-// New{{ .ObjectName }}Repository ... Create new repository
-func New{{ .ObjectName }}Repository(database *gorm.DB) {{ .ObjectName }}RepositoryInterface {
-	return &{{ .ObjectName }}Repository{database: database}
+// New{{ .Name.Singular.Title }}Repository ... Create new repository
+func New{{ .Name.Singular.Title }}Repository(database *gorm.DB) {{ .Name.Singular.Title }}RepositoryInterface {
+	return &{{ .Name.Singular.Title }}Repository{database: database}
 }
