@@ -7,7 +7,9 @@ import (
 
 // {{ .Name.Singular.Title }}RepositoryInterface ...
 type {{ .Name.Singular.Title }}RepositoryInterface interface {
-	Find(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error)
+	Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error)
+    Count(scopes ...func(*gorm.DB) *gorm.DB) (int64, error)
+	First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error)
 	Create(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
 	Save(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
 }
