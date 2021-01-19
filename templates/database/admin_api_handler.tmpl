@@ -31,6 +31,8 @@ func NewHandler(
 	return &Handler{
 		db:     db,
 		config: config,
+{{- range .Entities}}
 		{{ .CamelName }}Repository: {{ .CamelName }}Repository,
+{{- end }}
 	}
 }
