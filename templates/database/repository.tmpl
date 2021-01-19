@@ -19,21 +19,20 @@ type {{ .Name.Singular.Title }}Repository struct {
 
 // Get ... Get multiple entities
 func (repository *{{ .Name.Singular.Title }}Repository) Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error) {
-	var models []models.{{ .Name.Singular.Title }}
+	var data []models.{{ .Name.Singular.Title }}
 
-	if err := repository.database.Scopes(scopes...).Find(&models).Error; err != nil {
+	if err := repository.database.Scopes(scopes...).Find(&data).Error; err != nil {
 		return nil, err
 	}
 
-	return &models, nil
+	return &data, nil
 }
 
 // Count ... Count entities
 func (repository *{{ .Name.Singular.Title }}Repository) Count(scopes ...func(*gorm.DB) *gorm.DB) (int64, error) {
 	var count int64
-
 	if err := repository.database.Scopes(scopes...).Count(&count).Error; err != nil {
-		return nil, err
+		return 0, err
 	}
 
 	return count, nil

@@ -10,20 +10,19 @@ type Mock{{ .Name.Singular.Title }}Repository struct {
 }
 
 // Get ... Get multiple entities
-func (repository *{{ .Name.Singular.Title }}Repository) Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error) {
-	var models []models.CampaignCategory{
-    	models.GetFake{{ .Name.Singular.Title }}()
-	}
-	return &models, nil
+func (repository *Mock{{ .Name.Singular.Title }}Repository) Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error) {
+    model, _ := models.GetFake{{ .Name.Singular.Title }}()
+	data := []models.{{ .Name.Singular.Title }} {*model}
+	return &data, nil
 }
 
 // Count ... Count entities
-func (repository *{{ .Name.Singular.Title }}Repository) Count(scopes ...func(*gorm.DB) *gorm.DB) (int64, error) {
-    return 0
+func (repository *Mock{{ .Name.Singular.Title }}Repository) Count(scopes ...func(*gorm.DB) *gorm.DB) (int64, error) {
+    return 0, nil
 }
 
 // First ... Get single entity
-func (repository *{{ .Name.Singular.Title }}Repository) First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error) {
+func (repository *Mock{{ .Name.Singular.Title }}Repository) First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error) {
     return models.GetFake{{ .Name.Singular.Title }}()
 }
 
