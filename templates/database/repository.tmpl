@@ -23,7 +23,7 @@ type {{ .Name.Singular.Title }}Repository struct {
 func (repository *{{ .Name.Singular.Title }}Repository) Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error) {
 	var data []models.{{ .Name.Singular.Title }}
 
-	if err := repository.database.Scopes(scopes...).Find(&data).Error; err != nil {
+	if err := repository.database.Scopes(scopes...).First(&data).Error; err != nil {
 		return nil, err
 	}
 
@@ -57,7 +57,7 @@ func (repository *{{ .Name.Singular.Title }}Repository) Create(model *models.{{ 
 	if err != nil {
 		return nil, err
 	}
-	return repository.Find(ByID(model.ID))
+	return repository.First(ByID(model.ID))
 }
 
 // Save ... Update entity
@@ -68,7 +68,7 @@ func (repository *{{ .Name.Singular.Title }}Repository) Save(model *models.{{ .N
 	if err != nil {
 		return nil, err
 	}
-	return repository.Find(ByID(model.ID))
+	return repository.First(ByID(model.ID))
 }
 
 // New{{ .Name.Singular.Title }}Repository ... Create new repository

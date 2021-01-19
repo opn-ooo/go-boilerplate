@@ -13,28 +13,14 @@ type Repository interface {
 }
 
 // ByID ...
-func ByID(id uint64) func(*gorm.DB) *gorm.DB {
+func ByID(id int64) func(*gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Where("id = ?", id)
 	}
 }
 
-// ByNotificationID ...
-func ByNotificationID(notificationID uint64) func(*gorm.DB) *gorm.DB {
-	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("notification_id = ?", notificationID)
-	}
-}
-
-// ByUserID ...
-func ByUserID(userID uint64) func(*gorm.DB) *gorm.DB {
-	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("user_id = ?", userID)
-	}
-}
-
 // ByIDs ...
-func ByIDs(ids *[]uint64) func(*gorm.DB) *gorm.DB {
+func ByIDs(ids *[]int64) func(*gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		if len(*ids) == 0 {
 			return db
