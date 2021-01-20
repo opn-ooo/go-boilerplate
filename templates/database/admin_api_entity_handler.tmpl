@@ -13,6 +13,10 @@ import (
     "{{ .PackageName }}/internal/http/admin/requests"
     "{{ .PackageName }}/internal/http/admin/responses"
     "{{ .PackageName }}/internal/models"
+
+{{- if .HasDecimal }}
+    "github.com/shopspring/decimal"
+{{ end -}}
 )
 
 // {{ .Name.Plural.Title }}GetHandler ... endpoint for GET /{{ .Name.Original }}
@@ -110,6 +114,8 @@ func (handler *Handler) {{ .Name.Plural.Title }}PostHandler(c *gin.Context) {
             return
         }
         model.Amount = decimalData
+{{- else if eq .ObjectType "datatypes.JSON"}}
+        model.{{ .ObjectName }} = []byte(*update.{{ .ObjectName }})
 {{- else }}
         model.{{ .ObjectName }} = *update.{{ .ObjectName }}
 {{- end }}
