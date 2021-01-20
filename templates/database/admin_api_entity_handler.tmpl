@@ -86,7 +86,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}GetHandler(c *gin.Context) {
         }
         return
     }
-    response := responses.New{{ .Name.Singular.Title }}(model)
+    response := responses.New{{ .Name.Singular.Title }}(*model)
     c.JSON(http.StatusOK, response)
 }
 
@@ -118,13 +118,17 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
         c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
         return
     }
+{{- range .Columns }}
+{{ if .APIUpdatable }}    model.{{ .ObjectName }} = update.{{ .ObjectName }}{{ end -}}
+{{ end }}
     model.Name = update.Name
+
     model, err = handler.{{ .Name.Singular.Camel }}Repository.Save(model)
     if err != nil {
         c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
         return
     }
-    response := responses.New{{ .Name.Singular.Title }}(model)
+    response := responses.New{{ .Name.Singular.Title }}(*model)
     c.JSON(http.StatusOK, response)
 }
 
@@ -146,7 +150,11 @@ func (handler *Handler) {{ .Name.Singular.Title }}DeleteHandler(c *gin.Context) 
         }
         return
     }
-    err := handler.{{ .Name.Singular.Camel }}Repository.Delete(model)
+    err = handler.{{ .Name.Singular.Camel }}Repository.Delete(model)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
+        return
+    }
     response := responses.NewSuccessStatus()
     c.JSON(http.StatusOK, response)
 }
