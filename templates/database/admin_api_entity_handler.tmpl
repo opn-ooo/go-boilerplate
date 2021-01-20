@@ -101,11 +101,18 @@ func (handler *Handler) {{ .Name.Plural.Title }}PostHandler(c *gin.Context) {
     model := models.{{ .Name.Singular.Title }}{}
 
 {{- range .Columns }}
-{{ if .APIUpdatable }}
+{{- if .APIUpdatable -}}
     if update.{{ .ObjectName }} != nil {
+{{- if eq .ObjectType "decimal.Decimal" -}}
+        decimalData, err := decimal.NewFromString(*update.{{ .ObjectName }})
+        if err != nil {
+            c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
+            return
+        }
+        model.Amount = decimalData
+{{- else -}}
         model.{{ .ObjectName }} = *update.{{ .ObjectName }}
-    }
-{{ end -}}
+{{- end -}}
 {{ end }}
 
     resultModel, err := handler.{{ .Name.Singular.Camel }}Repository.Create(&model)
@@ -141,11 +148,20 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
         return
     }
 {{- range .Columns }}
-{{ if .APIUpdatable }}
+{{- if .APIUpdatable -}}
     if update.{{ .ObjectName }} != nil {
+{{- if eq .ObjectType "decimal.Decimal" -}}
+        decimalData, err := decimal.NewFromString(*update.{{ .ObjectName }})
+        if err != nil {
+            c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
+            return
+        }
+        model.Amount = decimalData
+{{- else -}}
         model.{{ .ObjectName }} = *update.{{ .ObjectName }}
+{{- end -}}
     }
-{{ end -}}
+{{- end -}}
 {{ end }}
 
     model, err = handler.{{ .Name.Singular.Camel }}Repository.Save(model)
