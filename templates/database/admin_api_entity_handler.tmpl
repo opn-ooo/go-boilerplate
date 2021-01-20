@@ -101,18 +101,18 @@ func (handler *Handler) {{ .Name.Plural.Title }}PostHandler(c *gin.Context) {
     model := models.{{ .Name.Singular.Title }}{}
 
 {{- range .Columns }}
-{{- if .APIUpdatable -}}
+{{- if .APIUpdatable }}
     if update.{{ .ObjectName }} != nil {
-{{- if eq .ObjectType "decimal.Decimal" -}}
+{{- if eq .ObjectType "decimal.Decimal" }}
         decimalData, err := decimal.NewFromString(*update.{{ .ObjectName }})
         if err != nil {
             c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
             return
         }
         model.Amount = decimalData
-{{- else -}}
+{{- else }}
         model.{{ .ObjectName }} = *update.{{ .ObjectName }}
-{{- end -}}
+{{- end }}
     }
 {{ end }}
 {{- end -}}
@@ -150,18 +150,18 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
         return
     }
 {{- range .Columns }}
-{{- if .APIUpdatable -}}
+{{- if .APIUpdatable }}
     if update.{{ .ObjectName }} != nil {
-{{- if eq .ObjectType "decimal.Decimal" -}}
+{{- if eq .ObjectType "decimal.Decimal" }}
         decimalData, err := decimal.NewFromString(*update.{{ .ObjectName }})
         if err != nil {
             c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
             return
         }
         model.Amount = decimalData
-{{- else -}}
+{{- else }}
         model.{{ .ObjectName }} = *update.{{ .ObjectName }}
-{{- end -}}
+{{- end }}
     }
 {{- end -}}
 {{ end }}

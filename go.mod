@@ -5,6 +5,7 @@ go 1.15
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/blendle/zapdriver v1.3.1
+	github.com/bxcodec/faker/v3 v3.5.0 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/golang-migrate/migrate/v4 v4.14.1
 	github.com/jinzhu/configor v1.2.1
