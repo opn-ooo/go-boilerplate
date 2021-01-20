@@ -113,6 +113,7 @@ func (handler *Handler) {{ .Name.Plural.Title }}PostHandler(c *gin.Context) {
 {{- else -}}
         model.{{ .ObjectName }} = *update.{{ .ObjectName }}
 {{- end -}}
+{{- end -}}
 {{ end }}
 
     resultModel, err := handler.{{ .Name.Singular.Camel }}Repository.Create(&model)
@@ -161,6 +162,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
         model.{{ .ObjectName }} = *update.{{ .ObjectName }}
 {{- end -}}
     }
+{{- end -}}
 {{- end -}}
 {{ end }}
 
