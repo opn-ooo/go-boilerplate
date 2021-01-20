@@ -3,6 +3,6 @@ package requests
 // {{ .Name.Singular.Title }}Update ... Object for {{ .Name.Singular.Title }} create / update
 type {{ .Name.Singular.Title }}Update struct {
 {{- range .Columns }}
-{{ if .APIUpdatable }}    {{.ObjectName}} *{{.ObjectType}} `json:"{{.Name}}"`{{ end -}}
+{{ if .APIUpdatable }}    {{.ObjectName}} *{{.APIObjectType}} `json:"{{.Name.Original}}"`{{ end -}}
 {{ end }}
 }

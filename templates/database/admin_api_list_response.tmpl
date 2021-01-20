@@ -12,7 +12,7 @@ type {{ .Name.Plural.Title }} struct {
 func New{{ .Name.Plural.Title }}(models *[]models.{{ .Name.Singular.Title }}, count int64) *{{ .Name.Plural.Title }} {
     slice := []{{ .Name.Singular.Title }}{}
     for _, model := range *models {
-        slice = append(slice, *New{{ .Name.Singular.Title }}(&model))
+        slice = append(slice, *New{{ .Name.Singular.Title }}(model))
     }
 	response := &{{ .Name.Plural.Title }}{
 	    Count: count,
