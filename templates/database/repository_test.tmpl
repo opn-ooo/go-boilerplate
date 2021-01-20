@@ -14,16 +14,16 @@ func TestNew{{ .Name.Singular.Title }}Repository(t *testing.T) {
 	assert.NotNil(t, repository)
 }
 
-func Test{{ .Name.Singular.Title }}Repository_Find(t *testing.T) {
+func Test{{ .Name.Singular.Title }}Repository_First(t *testing.T) {
 	repository, mock := create{{ .Name.Singular.Title }}RepositoryWithMockDB()
-	id := uint64(123)
+	id := int64(123)
 	mock.ExpectQuery(regexp.QuoteMeta(
 		`SELECT * FROM "{{ .Name.Original }}" WHERE id = $1 ORDER BY "{{ .Name.Original }}"."id" LIMIT 1`)).
 		WithArgs(id).
 		WillReturnRows(
 			sqlmock.NewRows([]string{"id"}).AddRow(id))
 
-	_, err := repository.Find(ByID(id))
+	_, err := repository.First(ByID(id))
 	assert.NoError(t, err)
 }
 

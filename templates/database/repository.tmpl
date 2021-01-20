@@ -12,6 +12,7 @@ type {{ .Name.Singular.Title }}RepositoryInterface interface {
 	First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error)
 	Create(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
 	Save(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
+    Delete(model *models.User) error
 }
 
 // {{ .Name.Singular.Title }}Repository ...
@@ -69,6 +70,23 @@ func (repository *{{ .Name.Singular.Title }}Repository) Save(model *models.{{ .N
 		return nil, err
 	}
 	return repository.First(ByID(model.ID))
+}
+
+// Delete ... Delete entity
+func (repository *{{ .Name.Singular.Title }}Repository) Delete(model *models.{{ .Name.Singular.Title }}) error {
+    var checkModel models.{{ .Name.Singular.Title }}
+    if err := repository.database.Scopes(ByID(model.ID)).First(&checkModel).Error; err != nil {
+        return err
+    }
+    err := repository.database.Transaction(func(tx *gorm.DB) error {
+        return repository.database.Delete(&models.{{ .Name.Singular.Title }}{
+            ID: model.ID,
+        }).Error
+    })
+    if err != nil {
+        return err
+    }
+    return nil
 }
 
 // New{{ .Name.Singular.Title }}Repository ... Create new repository

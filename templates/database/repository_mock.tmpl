@@ -35,3 +35,8 @@ func (repository *Mock{{ .Name.Singular.Title }}Repository) Create(model *models
 func (repository *Mock{{ .Name.Singular.Title }}Repository) Save(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
 	return model, nil
 }
+
+// Delete ... Delete entity
+func (repository *Mock{{ .Name.Singular.Title }}Repository) Delete(model *models.{{ .Name.Singular.Title }}) error {
+    return nil
+}
