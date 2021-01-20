@@ -16,6 +16,7 @@ require (
 	github.com/spf13/viper v1.7.1
 	go.uber.org/dig v1.10.0
 	go.uber.org/zap v1.10.0
+	gorm.io/datatypes v1.0.0 // indirect
 	gorm.io/driver/postgres v1.0.5
 	gorm.io/gorm v1.20.8
 )
