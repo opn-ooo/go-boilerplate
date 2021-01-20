@@ -12,6 +12,7 @@ import (
     "github.com/gin-gonic/gin"
     "{{ .PackageName }}/internal/http/admin/requests"
     "{{ .PackageName }}/internal/http/admin/responses"
+    "{{ .PackageName }}/internal/models"
 )
 
 // {{ .Name.Plural.Title }}GetHandler ... endpoint for GET /{{ .Name.Original }}
@@ -92,7 +93,28 @@ func (handler *Handler) {{ .Name.Singular.Title }}GetHandler(c *gin.Context) {
 
 // {{ .Name.Plural.Title }}PostHandler ... endpoint for POST /{{ .Name.Original }}
 func (handler *Handler) {{ .Name.Plural.Title }}PostHandler(c *gin.Context) {
+    var update requests.{{ .Name.Singular.Title }}Update
+    if err := c.Bind(&update); err != nil {
+        c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
+        return
+    }
+    model := models.{{ .Name.Singular.Title }}{}
 
+{{- range .Columns }}
+{{ if .APIUpdatable }}
+    if update.{{ .ObjectName }} != nil {
+        model.{{ .ObjectName }} = *update.{{ .ObjectName }}
+    }
+{{ end -}}
+{{ end }}
+
+    resultModel, err := handler.{{ .Name.Singular.Camel }}Repository.Create(&model)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
+        return
+    }
+    response := responses.New{{ .Name.Singular.Title }}(*resultModel)
+    c.JSON(http.StatusCreated, response)
 }
 
 // {{ .Name.Singular.Title }}PutHandler ... endpoint for POST endpoint for PUT /{{ .Name.Original }}/{id}
@@ -119,9 +141,12 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
         return
     }
 {{- range .Columns }}
-{{ if .APIUpdatable }}    model.{{ .ObjectName }} = update.{{ .ObjectName }}{{ end -}}
+{{ if .APIUpdatable }}
+    if update.{{ .ObjectName }} != nil {
+        model.{{ .ObjectName }} = *update.{{ .ObjectName }}
+    }
+{{ end -}}
 {{ end }}
-    model.Name = update.Name
 
     model, err = handler.{{ .Name.Singular.Camel }}Repository.Save(model)
     if err != nil {

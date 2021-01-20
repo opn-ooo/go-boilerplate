@@ -12,7 +12,7 @@ type {{ .Name.Singular.Title }}RepositoryInterface interface {
 	First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error)
 	Create(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
 	Save(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
-    Delete(model *models.User) error
+    Delete(model *models.{{ .Name.Singular.Title }}) error
 }
 
 // {{ .Name.Singular.Title }}Repository ...
