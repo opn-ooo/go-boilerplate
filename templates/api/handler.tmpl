@@ -9,7 +9,18 @@ import (
 
 // {{ .HandlerName }} ... endpoint for {{ .Method }} {{ .Path }}
 func (handler *Handler) {{ .HandlerName }}(c *gin.Context) {
-    {{ .ProcessRequest }}
+{{- range .Parameters }}
+{{- if eq .In "path" }}
+    {{ .Name.Singular.Camel }} := c.Param("{{ .Name.Original }}")
+{{- else of eq .In "query" }}
+    {{ .Name.Singular.Camel }} := c.DefaultQuery("{{ .Name.Original }}","")
+{{- end }}
+{{ end }}
 
-    {{ .BuildResponse }}
+{{- range .Responses }}
+{{- if eq .Success true }}
+    response := responses.{{ .Schema.ObjectName }}{}
+    c.JSON(http.StatusOK, response)
+{{- end }}
+{{ end }}
 }
