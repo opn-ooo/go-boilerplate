@@ -12,7 +12,7 @@ func (handler *Handler) {{ .HandlerName }}(c *gin.Context) {
 {{- range .Parameters }}
 {{- if eq .In "path" }}
     {{ .Name.Singular.Camel }} := c.Param("{{ .Name.Original }}")
-{{- else of eq .In "query" }}
+{{- else if eq .In "query" }}
     {{ .Name.Singular.Camel }} := c.DefaultQuery("{{ .Name.Original }}","")
 {{- end }}
 {{ end }}
