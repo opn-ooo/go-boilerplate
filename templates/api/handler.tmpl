@@ -4,6 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+{{- if ne .RequestSchemaName.Original "" }}
+	"{{ .PackageName }}/internal/http/app/requests"
+{{- end }}
 	"{{ .PackageName }}/internal/http/app/responses"
 )
 

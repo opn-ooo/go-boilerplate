@@ -1,8 +1,8 @@
 package requests
 
-// {{ .RequestObjectName }} ... {{ .Description }}
-type {{ .RequestObjectName }} struct {
-{{- range .Parameters}}
-	{{.ObjectName}}  {{.Type}} `json:"{{.Name}}"{{if .IsRequired}} binding:"required"{{end}}`
+// {{ .ObjectName }} ... {{ .Description }}
+type {{ .ObjectName }} struct {
+{{- range .Properties}}
+	{{.ObjectName}} {{if eq .Required false }}*{{end}}{{.ObjectType}} `json:"{{.Name}}"`
 {{- end }}
 }
