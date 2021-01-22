@@ -11,16 +11,23 @@ import (
 func (handler *Handler) {{ .HandlerName }}(c *gin.Context) {
 {{- range .Parameters }}
 {{- if eq .In "path" }}
-    {{ .Name.Singular.Camel }} := c.Param("{{ .Name.Original }}")
+    _ = c.Param("{{ .Name.Original }}")
 {{- else if eq .In "query" }}
-    {{ .Name.Singular.Camel }} := c.DefaultQuery("{{ .Name.Original }}","")
+    _ = c.DefaultQuery("{{ .Name.Original }}","")
 {{- end }}
 {{ end }}
+{{- if ne .RequestSchemaName.Original "" }}
+	var update requests.{{ .RequestSchemaName.Default.Title }}
+	if err := c.Bind(&update); err != nil {
+		c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
+		return
+	}
+{{ end }}
 
-{{- range .Responses }}
+{{- range .Responses -}}
 {{- if eq .Success true }}
     response := responses.{{ .Schema.ObjectName }}{}
     c.JSON(http.StatusOK, response)
+{{- end -}}
 {{- end }}
-{{ end }}
 }
