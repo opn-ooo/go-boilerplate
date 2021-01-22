@@ -9,7 +9,7 @@ import (
 // HandlerInterface ...
 type HandlerInterface interface {
 	HealthzHandler(c *gin.Context)
-{{- range .Request}}
+{{- range .Requests }}
     {{ .HandlerName }}(c *gin.Context)
 {{- end -}}
 }
