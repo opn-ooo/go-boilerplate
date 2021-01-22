@@ -14,8 +14,6 @@ func (handler *Handler) {{ .HandlerName }}(c *gin.Context) {
     {{ .Name.Singular.Camel }} := c.Param("{{ .Name.Original }}")
 {{- else if eq .In "query" }}
     {{ .Name.Singular.Camel }} := c.DefaultQuery("{{ .Name.Original }}","")
-{{ else }}
-{{ .In }}
 {{- end }}
 {{ end }}
 

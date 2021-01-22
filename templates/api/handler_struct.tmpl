@@ -1,0 +1,32 @@
+package handlers
+
+import (
+	"github.com/gin-gonic/gin"
+	"{{ .PackageName }}/config"
+	"gorm.io/gorm"
+)
+
+// HandlerInterface ...
+type HandlerInterface interface {
+	HealthzHandler(c *gin.Context)
+{{- range .Request}}
+    {{ .HandlerName }}(c *gin.Context)
+{{- end -}}
+}
+
+// Handler ...
+type Handler struct {
+	db     *gorm.DB
+	config *config.Config
+}
+
+// NewHandler ...
+func NewHandler(
+	db *gorm.DB,
+	config *config.Config,
+) HandlerInterface {
+	return &Handler{
+		db:     db,
+		config: config,
+	}
+}
