@@ -1,0 +1,9 @@
+	adminRouter := app.Group("admin")
+	adminRouter.Use(requestHeaderMiddleware)
+{{- range .Requests }}
+    adminRouter.GET("/{{ .Name.Original }}", handler.{{ .Name.Plural.Title }}GetHandler
+    adminRouter.POST("/{{ .Name.Original }}", handler.{{ .Name.Plural.Title }}PostHandler
+    adminRouter.GET("/{{ .Name.Original }}/:id", handler.{{ .Name.Singular.Title }}GetHandler
+    adminRouter.PUT("/{{ .Name.Original }}/:id", handler.{{ .Name.Singular.Title }}PutHandler
+    adminRouter.DELETE("/{{ .Name.Original }}/:id", handler.{{ .Name.Singular.Title }}DeleteHandler
+{{- end -}}

@@ -105,8 +105,8 @@ func setupRoutes(app *gin.Engine, container *dig.Container) error {
 
 	app.GET("/healthz", handler.HealthzHandler)
 
-	v1Router := app.Group("v1")
-	v1Router.Use(requestHeaderMiddleware)
+	// {{ REPLACE route }}
+	// {{ REPLACE END route }}
 
 	return nil
 }

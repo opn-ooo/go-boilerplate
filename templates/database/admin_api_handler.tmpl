@@ -10,6 +10,13 @@ import (
 // HandlerInterface ...
 type HandlerInterface interface {
 	HealthzHandler(c *gin.Context)
+{{- range .Entities}}
+    {{ .Name.Plural.Title }}GetHandler(c *gin.Context)
+    {{ .Name.Plural.Title }}PostHandler(c *gin.Context)
+    {{ .Name.Singular.Title }}GetHandler(c *gin.Context)
+    {{ .Name.Singular.Title }}PutHandler(c *gin.Context)
+    {{ .Name.Singular.Title }}DeleteHandler(c *gin.Context)
+{{- end }}
 }
 
 // Handler ...
