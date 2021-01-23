@@ -7,7 +7,6 @@ type {{ .ObjectName }} struct {
 {{- end }}
 }
 
-
 // New{{ .ObjectName }} ... Create new {{ .ObjectName }} response
 func New{{ .ObjectName }}() *{{ .ObjectName }} {
 	response := &{{ .ObjectName }}{
