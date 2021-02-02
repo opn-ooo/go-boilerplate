@@ -165,6 +165,8 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
             return
         }
         model.Amount = decimalData
+{{- else if eq .ObjectType "datatypes.JSON"}}
+        model.{{ .ObjectName }} = []byte(*update.{{ .ObjectName }})
 {{- else }}
         model.{{ .ObjectName }} = *update.{{ .ObjectName }}
 {{- end }}
