@@ -1,0 +1,3 @@
+{{- range .Entities}}
+	_ = container.Provide(repositories.New{{ .Name.Singular.Title }}Repository)
+{{- end }}

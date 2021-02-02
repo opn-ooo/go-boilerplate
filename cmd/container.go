@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/opn-ooo/go-boilerplate/config"
+	adminHandler "github.com/opn-ooo/go-boilerplate/internal/http/admin/handlers"
 	appHandler "github.com/opn-ooo/go-boilerplate/internal/http/app/handlers"
 	appMiddlewares "github.com/opn-ooo/go-boilerplate/internal/http/app/middlewares"
 	"github.com/opn-ooo/go-boilerplate/pkg/database"
@@ -22,6 +23,7 @@ func BuildContainer() *dig.Container {
 	_ = container.Provide(appHandler.NewHandler)
 
 	// Handler for Admin APIs
+	_ = container.Provide(adminHandler.NewHandler)
 
 	// Middlewares for All APIs
 	_ = container.Provide(commonMiddlewares.SecurityHeaders, dig.Name("securityHeaders"))
@@ -30,6 +32,10 @@ func BuildContainer() *dig.Container {
 
 	// Middlewares for App APIs
 	_ = container.Provide(appMiddlewares.RequestHeaders, dig.Name("requestHeaders"))
+
+	// Middlewares for Repositories
+	// {{ REPLACE repository }}
+	// {{ REPLACE END repository }}
 
 	return container
 }

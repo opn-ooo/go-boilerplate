@@ -1,4 +1,4 @@
-	adminRouter := app.Group("admin")
+	adminRouter := app.Group("/admin")
 	adminRouter.Use(requestHeaderMiddleware)
 {{- range .Entities }}
     adminRouter.GET("/{{ .Name.Original }}", handler.{{ .Name.Plural.Title }}GetHandler)
