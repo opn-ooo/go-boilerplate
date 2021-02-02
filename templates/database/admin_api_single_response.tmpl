@@ -16,7 +16,7 @@ func New{{ .Name.Singular.Title }}(model models.{{ .Name.Singular.Title }}) *{{ 
 	response := &{{ .Name.Singular.Title }}{
 {{- range .Columns }}
 {{- if eq .ObjectType "decimal.Decimal" }}
-{{ if .APIReturnable }}		{{.ObjectName}}: string(model.{{.ObjectName}}).String(),{{ end -}}
+{{ if .APIReturnable }}		{{.ObjectName}}: model.{{.ObjectName}}.String(),{{ end -}}
 {{- else if eq .ObjectType "datatypes.JSON"}}
 {{ if .APIReturnable }}		{{.ObjectName}}: string(model.{{.ObjectName}}),{{ end -}}
 {{ else }}
