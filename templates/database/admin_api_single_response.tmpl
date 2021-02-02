@@ -15,7 +15,11 @@ type {{ .Name.Singular.Title }} struct {
 func New{{ .Name.Singular.Title }}(model models.{{ .Name.Singular.Title }}) *{{ .Name.Singular.Title }} {
 	response := &{{ .Name.Singular.Title }}{
 {{- range .Columns }}
+{{- if eq .ObjectType "datatypes.JSON" }}
+{{ if .APIReturnable }}		{{.ObjectName}}: []byte(model.{{.ObjectName}}),{{ end -}}
+{{ else }}
 {{ if .APIReturnable }}		{{.ObjectName}}: model.{{.ObjectName}},{{ end -}}
+{{ end -}}
 {{ end }}
 		CreatedAt: model.CreatedAt.Unix(),
         UpdatedAt: model.UpdatedAt.Unix(),
