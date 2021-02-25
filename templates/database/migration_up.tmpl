@@ -1,6 +1,6 @@
 create table if not exists {{ .Name.Original }} (
 {{- range .Columns}}
-    {{ .Name.Original }} {{ .DataType }}{{if .Primary }} primary key{{end}},
+    {{ .Name.Original }} {{ .DataType }}{{if .Primary }} primary key{{end}}{{if ne .DefaultValue "" }} default {{ .DefaultValue }}{{end}},
 {{- end }}
     created_at timestamp with time zone default current_timestamp,
     updated_at timestamp with time zone default current_timestamp

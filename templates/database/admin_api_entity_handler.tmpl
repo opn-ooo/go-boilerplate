@@ -164,7 +164,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
             c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
             return
         }
-        model.Amount = decimalData
+        model.{{ .ObjectName }} = decimalData
 {{- else if eq .ObjectType "datatypes.JSON"}}
         model.{{ .ObjectName }} = []byte(*update.{{ .ObjectName }})
 {{- else }}
