@@ -75,7 +75,7 @@ func (handler *Handler) {{ .Name.Plural.Title }}GetHandler(c *gin.Context) {
 
 // {{ .Name.Singular.Title }}GetHandler ... endpoint for GET /{{ .Name.Original }}/{id}
 func (handler *Handler) {{ .Name.Singular.Title }}GetHandler(c *gin.Context) {
-{{ if eq .PrimaryKey.ObjectType "uuid" }}
+{{ if eq .PrimaryKey.DataType "uuid" }}
     id := c.Param("id")
 {{ else }}
     id, err := strconv.ParseInt(c.Param("id"), 10, 64)
@@ -142,7 +142,7 @@ func (handler *Handler) {{ .Name.Plural.Title }}PostHandler(c *gin.Context) {
 
 // {{ .Name.Singular.Title }}PutHandler ... endpoint for POST endpoint for PUT /{{ .Name.Original }}/{id}
 func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
-{{ if eq .PrimaryKey.ObjectType "uuid" }}
+{{ if eq .PrimaryKey.DataType "uuid" }}
     id := c.Param("id")
 {{ else }}
     id, err := strconv.ParseInt(c.Param("id"), 10, 64)
@@ -197,7 +197,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
 
 // {{ .Name.Singular.Title }}DeleteHandler ... endpoint for DELETE endpoint for PUT /{{ .Name.Original }}/{id}
 func (handler *Handler) {{ .Name.Singular.Title }}DeleteHandler(c *gin.Context) {
-{{ if eq .PrimaryKey.ObjectType "uuid" }}
+{{ if eq .PrimaryKey.DataType "uuid" }}
     id := c.Param("id")
 {{ else }}
     id, err := strconv.ParseInt(c.Param("id"), 10, 64)
