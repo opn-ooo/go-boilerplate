@@ -1,4 +1,4 @@
-create function update_updated_at() returns opaque as '
+create function update_updated_at() returns trigger as '
   begin
     new.accesstime := ''now'';
     return new;

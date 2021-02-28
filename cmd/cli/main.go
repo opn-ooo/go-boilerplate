@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/opn-ooo/go-boilerplate/cmd"
+	"github.com/opn-ooo/go-boilerplate/cmd/cli/database"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -18,7 +19,20 @@ var rootCmd = &cobra.Command{
 	},
 }
 
+var dbCmd = &cobra.Command{
+	Use:   "db",
+	Short: "Manipulate the database",
+}
+
+var dbMigrateCmd = &cobra.Command{
+	Use:   "migrate",
+	Short: "Run the migrations",
+	RunE:  database.Migrate,
+}
+
 func init() {
+	rootCmd.AddCommand(dbCmd)
+	dbCmd.AddCommand(dbMigrateCmd)
 }
 
 func createDBConnection() (*gorm.DB, error) {
