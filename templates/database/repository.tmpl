@@ -4,6 +4,7 @@ import (
     "context"
 
 	"{{ .PackageName }}/internal/models"
+	"{{ .PackageName }}/pkg/database"
 	"gorm.io/gorm"
 )
 
@@ -95,7 +96,6 @@ func (repository *{{ .Name.Singular.Title }}Repository) Save(ctx *context.Contex
 
 // Delete ... Delete entity
 func (repository *{{ .Name.Singular.Title }}Repository) Delete(ctx *context.Context, model *models.{{ .Name.Singular.Title }}) error {
-    db, ok := database.GetTransaction(ctx)
     db, ok := database.GetTransaction(ctx)
 	if !ok {
 		db = repository.database
