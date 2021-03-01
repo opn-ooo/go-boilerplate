@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"context"
 	"time"
 
 	"github.com/opn-ooo/go-boilerplate/internal/models"
@@ -9,7 +10,7 @@ import (
 
 // Repository ...
 type Repository interface {
-	Find(scopes ...func(*gorm.DB) *gorm.DB) (*models.Base, error)
+	First(ctx *context.Context, scopes ...func(*gorm.DB) *gorm.DB) (*models.Base, error)
 }
 
 // ByID ...

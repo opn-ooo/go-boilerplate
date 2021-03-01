@@ -48,6 +48,7 @@ func (handler *Handler) {{ .Name.Plural.Title }}GetHandler(c *gin.Context) {
     }
 
     data, err := handler.{{ .Name.Singular.Camel }}Repository.Get(
+        nil,
         repositories.Limit(limit),
         repositories.Offset(offset),
         repositories.OrderBy(order + " " +direction),
@@ -62,6 +63,7 @@ func (handler *Handler) {{ .Name.Plural.Title }}GetHandler(c *gin.Context) {
         return
     }
     count, err := handler.{{ .Name.Singular.Camel }}Repository.Count(
+        nil,
         repositories.Limit(limit),
         repositories.Offset(offset),
         repositories.OrderBy(order + " " +direction),
@@ -85,6 +87,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}GetHandler(c *gin.Context) {
     }
 {{ end }}
     model, err := handler.{{ .Name.Singular.Camel }}Repository.First(
+        nil,
         repositories.ByID(id),
     )
     if err != nil {
@@ -127,7 +130,7 @@ func (handler *Handler) {{ .Name.Plural.Title }}PostHandler(c *gin.Context) {
 {{ end }}
 {{- end -}}
 
-    resultModel, err := handler.{{ .Name.Singular.Camel }}Repository.Create(&model)
+    resultModel, err := handler.{{ .Name.Singular.Camel }}Repository.Create(nil, &model)
     if err != nil {
         c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
         return
@@ -148,6 +151,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
     }
 {{ end }}
     model, err := handler.{{ .Name.Singular.Camel }}Repository.First(
+        nil,
         repositories.ByID(id),
     )
     if err != nil {
@@ -182,7 +186,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
 {{- end -}}
 {{ end }}
 
-    model, err = handler.{{ .Name.Singular.Camel }}Repository.Save(model)
+    model, err = handler.{{ .Name.Singular.Camel }}Repository.Save(nil, model)
     if err != nil {
         c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
         return
@@ -203,6 +207,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}DeleteHandler(c *gin.Context) 
     }
 {{ end }}
     model, err := handler.{{ .Name.Singular.Camel }}Repository.First(
+        nil,
         repositories.ByID(id),
     )
     if err != nil {
@@ -213,7 +218,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}DeleteHandler(c *gin.Context) 
         }
         return
     }
-    err = handler.{{ .Name.Singular.Camel }}Repository.Delete(model)
+    err = handler.{{ .Name.Singular.Camel }}Repository.Delete(nil, model)
     if err != nil {
         c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
         return

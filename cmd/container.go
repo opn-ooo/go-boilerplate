@@ -5,7 +5,6 @@ import (
 	adminHandler "github.com/opn-ooo/go-boilerplate/internal/http/admin/handlers"
 	appHandler "github.com/opn-ooo/go-boilerplate/internal/http/app/handlers"
 	appMiddlewares "github.com/opn-ooo/go-boilerplate/internal/http/app/middlewares"
-	"github.com/opn-ooo/go-boilerplate/internal/repositories"
 	"github.com/opn-ooo/go-boilerplate/pkg/database"
 	"github.com/opn-ooo/go-boilerplate/pkg/logger"
 	commonMiddlewares "github.com/opn-ooo/go-boilerplate/pkg/middlewares"
@@ -19,6 +18,7 @@ func BuildContainer() *dig.Container {
 	_ = container.Provide(config.LoadConfig)
 	_ = container.Provide(logger.NewLogger)
 	_ = container.Provide(database.InitDatabase)
+	_ = container.Provide(database.NewTransaction)
 
 	// Handlers for User APIs
 	_ = container.Provide(appHandler.NewHandler)

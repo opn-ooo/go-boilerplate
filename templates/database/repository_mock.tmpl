@@ -1,6 +1,8 @@
 package repositories
 
 import (
+    "context"
+
 	"{{ .PackageName }}/internal/models"
 	"gorm.io/gorm"
 )
@@ -10,33 +12,33 @@ type Mock{{ .Name.Singular.Title }}Repository struct {
 }
 
 // Get ... Get multiple entities
-func (repository *Mock{{ .Name.Singular.Title }}Repository) Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error) {
+func (repository *Mock{{ .Name.Singular.Title }}Repository) Get(ctx *context.Context, scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error) {
     model, _ := models.GetFake{{ .Name.Singular.Title }}()
 	data := []models.{{ .Name.Singular.Title }} {*model}
 	return &data, nil
 }
 
 // Count ... Count entities
-func (repository *Mock{{ .Name.Singular.Title }}Repository) Count(scopes ...func(*gorm.DB) *gorm.DB) (int64, error) {
+func (repository *Mock{{ .Name.Singular.Title }}Repository) Count(ctx *context.Context, scopes ...func(*gorm.DB) *gorm.DB) (int64, error) {
     return 0, nil
 }
 
 // First ... Get single entity
-func (repository *Mock{{ .Name.Singular.Title }}Repository) First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error) {
+func (repository *Mock{{ .Name.Singular.Title }}Repository) First(ctx *context.Context, scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error) {
     return models.GetFake{{ .Name.Singular.Title }}()
 }
 
 // Create ...
-func (repository *Mock{{ .Name.Singular.Title }}Repository) Create(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
+func (repository *Mock{{ .Name.Singular.Title }}Repository) Create(ctx *context.Context, model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
 	return model, nil
 }
 
 // Save ...
-func (repository *Mock{{ .Name.Singular.Title }}Repository) Save(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
+func (repository *Mock{{ .Name.Singular.Title }}Repository) Save(ctx *context.Context, model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
 	return model, nil
 }
 
 // Delete ... Delete entity
-func (repository *Mock{{ .Name.Singular.Title }}Repository) Delete(model *models.{{ .Name.Singular.Title }}) error {
+func (repository *Mock{{ .Name.Singular.Title }}Repository) Delete(ctx *context.Context, model *models.{{ .Name.Singular.Title }}) error {
     return nil
 }

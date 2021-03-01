@@ -1,18 +1,20 @@
 package repositories
 
 import (
+    "context"
+
 	"{{ .PackageName }}/internal/models"
 	"gorm.io/gorm"
 )
 
 // {{ .Name.Singular.Title }}RepositoryInterface ...
 type {{ .Name.Singular.Title }}RepositoryInterface interface {
-	Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error)
-    Count(scopes ...func(*gorm.DB) *gorm.DB) (int64, error)
-	First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error)
-	Create(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
-	Save(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
-    Delete(model *models.{{ .Name.Singular.Title }}) error
+	Get(ctx *context.Context, scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error)
+    Count(ctx *context.Context, scopes ...func(*gorm.DB) *gorm.DB) (int64, error)
+	First(ctx *context.Context, scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error)
+	Create(ctx *context.Context, model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
+	Save(ctx *context.Context, model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
+    Delete(ctx *context.Context, model *models.{{ .Name.Singular.Title }}) error
 }
 
 // {{ .Name.Singular.Title }}Repository ...
@@ -21,10 +23,14 @@ type {{ .Name.Singular.Title }}Repository struct {
 }
 
 // Get ... Get multiple entities
-func (repository *{{ .Name.Singular.Title }}Repository) Get(scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error) {
+func (repository *{{ .Name.Singular.Title }}Repository) Get(ctx *context.Context, scopes ...func(*gorm.DB) *gorm.DB) (*[]models.{{ .Name.Singular.Title }}, error) {
 	var data []models.{{ .Name.Singular.Title }}
+    db, ok := database.GetTransaction(ctx)
+	if !ok {
+		db = repository.database
+	}
 
-	if err := repository.database.Scopes(scopes...).First(&data).Error; err != nil {
+	if err := db.Scopes(scopes...).First(&data).Error; err != nil {
 		return nil, err
 	}
 
@@ -32,9 +38,14 @@ func (repository *{{ .Name.Singular.Title }}Repository) Get(scopes ...func(*gorm
 }
 
 // Count ... Count entities
-func (repository *{{ .Name.Singular.Title }}Repository) Count(scopes ...func(*gorm.DB) *gorm.DB) (int64, error) {
+func (repository *{{ .Name.Singular.Title }}Repository) Count(ctx *context.Context, scopes ...func(*gorm.DB) *gorm.DB) (int64, error) {
+    db, ok := database.GetTransaction(ctx)
+	if !ok {
+		db = repository.database
+	}
+
 	var count int64
-	if err := repository.database.Scopes(scopes...).Count(&count).Error; err != nil {
+	if err := db.Scopes(scopes...).Count(&count).Error; err != nil {
 		return 0, err
 	}
 
@@ -42,47 +53,59 @@ func (repository *{{ .Name.Singular.Title }}Repository) Count(scopes ...func(*go
 }
 
 // First ... Get single entity
-func (repository *{{ .Name.Singular.Title }}Repository) First(scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error) {
+func (repository *{{ .Name.Singular.Title }}Repository) First(ctx *context.Context, scopes ...func(*gorm.DB) *gorm.DB) (*models.{{ .Name.Singular.Title }}, error) {
+    db, ok := database.GetTransaction(ctx)
+	if !ok {
+		db = repository.database
+	}
 	var model models.{{ .Name.Singular.Title }}
-	if err := repository.database.Scopes(scopes...).First(&model).Error; err != nil {
+	if err := db.Scopes(scopes...).First(&model).Error; err != nil {
 		return nil, err
 	}
 	return &model, nil
 }
 
 // Create ... Create new entity
-func (repository *{{ .Name.Singular.Title }}Repository) Create(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
-	err := repository.database.Transaction(func(tx *gorm.DB) error {
-		return repository.database.Create(&model).Error
-	})
+func (repository *{{ .Name.Singular.Title }}Repository) Create(ctx *context.Context, model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
+    db, ok := database.GetTransaction(ctx)
+	if !ok {
+		db = repository.database
+	}
+
+	err := db.Create(&model).Error
 	if err != nil {
 		return nil, err
 	}
-	return repository.First(ByID(model.ID))
+	return repository.First(ctx, ByID(model.ID))
 }
 
 // Save ... Update entity
-func (repository *{{ .Name.Singular.Title }}Repository) Save(model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
-	err := repository.database.Transaction(func(tx *gorm.DB) error {
-		return repository.database.Save(&model).Error
-	})
+func (repository *{{ .Name.Singular.Title }}Repository) Save(ctx *context.Context, model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error) {
+    db, ok := database.GetTransaction(ctx)
+	if !ok {
+		db = repository.database
+	}
+
+	err := db.Save(&model).Error
 	if err != nil {
 		return nil, err
 	}
-	return repository.First(ByID(model.ID))
+	return repository.First(ctx, ByID(model.ID))
 }
 
 // Delete ... Delete entity
-func (repository *{{ .Name.Singular.Title }}Repository) Delete(model *models.{{ .Name.Singular.Title }}) error {
+func (repository *{{ .Name.Singular.Title }}Repository) Delete(ctx *context.Context, model *models.{{ .Name.Singular.Title }}) error {
+    db, ok := database.GetTransaction(ctx)
+    db, ok := database.GetTransaction(ctx)
+	if !ok {
+		db = repository.database
+	}
+
     var checkModel models.{{ .Name.Singular.Title }}
-    if err := repository.database.Scopes(ByID(model.ID)).First(&checkModel).Error; err != nil {
+    if err := db.Scopes(ByID(model.ID)).First(&checkModel).Error; err != nil {
         return err
     }
-    err := repository.database.Transaction(func(tx *gorm.DB) error {
-        return repository.database.Delete(&models.{{ .Name.Singular.Title }}{
-            ID: model.ID,
-        }).Error
-    })
+    err := db.Delete(&models.{{ .Name.Singular.Title }}{ID: model.ID,}).Error
     if err != nil {
         return err
     }
