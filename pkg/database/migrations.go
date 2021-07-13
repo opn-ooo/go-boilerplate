@@ -2,7 +2,8 @@ package database
 
 import (
 	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/postgres"
+	"github.com/opn-ooo/go-boilerplate/database"
+
 	// For migrate files
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"gorm.io/gorm"
@@ -10,19 +11,5 @@ import (
 
 // NewMigrate ...
 func NewMigrate(db *gorm.DB) (*migrate.Migrate, error) {
-	_db, err := db.DB()
-	if err != nil {
-		return nil, err
-	}
-	dbDriver, err := postgres.WithInstance(_db, &postgres.Config{})
-	if err != nil {
-		return nil, err
-	}
-
-	m, err := migrate.NewWithDatabaseInstance("file://database/migrations", "postgres", dbDriver)
-	if err != nil {
-		return nil, err
-	}
-
-	return m, nil
+	return database.Migration(db)
 }
