@@ -17,7 +17,8 @@ type Config struct {
 			Timezone  string `default:"UTC" env:"APP_TIMEZONE"`
 			DebugMode bool   `default:"false" env:"APP_DEBUG_MODE"`
 		}
-		DevMode bool `default:"false" env:"DEV"`
+		DevMode           bool `default:"false" env:"DEV"`
+		MonitoringEnabled bool `default:"false" env:"MONITORING_ENABLED"`
 	}
 
 	Database struct {

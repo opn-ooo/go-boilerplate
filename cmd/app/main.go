@@ -12,6 +12,7 @@ import (
 	commonMiddlewares "github.com/opn-ooo/go-boilerplate/pkg/middlewares"
 	"go.uber.org/dig"
 	"go.uber.org/zap"
+	gintrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/gin-gonic/gin"
 )
 
 // Start ...
@@ -86,6 +87,10 @@ func setupMiddlewares(app *gin.Engine, container *dig.Container) error {
 	app.Use(requestIDMiddleware)
 	app.Use(loggerMiddleware)
 
+	if configInstance.App.MonitoringEnabled == true {
+		// DataDog (APM)
+		app.Use(gintrace.Middleware("fmt.Sprintf(\"%s-%s\", os.Getenv(\"DD_SERVICE\"), os.Getenv(\"DD_ENV\")))")) // use default service name from env
+	}
 	return nil
 }
 
