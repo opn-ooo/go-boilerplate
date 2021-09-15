@@ -129,13 +129,13 @@ See the [open issues](https://github.com/opn-ooo/go-boilerplate/issues?q=is%3Aop
 
 ## Requirements
 
--   Go^1.15
+-   Go^1.16
 
 <!-- ACKNOWLEDGEMENTS -->
 
 ## Acknowledgements
 
+-   [Gin](https://gin-gonic.com)
 -   [Dig](https://pkg.go.dev/go.uber.org/dig)
--   [Cobra](https://cobra.dev)
--   [Testify](https://github.com/stretchr/testify) \
+-   [Gorm](https://gorm.io)
     And many more
