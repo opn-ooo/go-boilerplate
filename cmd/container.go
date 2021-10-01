@@ -34,7 +34,7 @@ func BuildContainer() *dig.Container {
 	// Middlewares for App APIs
 	_ = container.Provide(appMiddlewares.RequestHeaders, dig.Name("requestHeaders"))
 
-	// Middlewares for Repositories
+	// Repositories
 	// {{ REPLACE repository }}
 	// {{ REPLACE END repository }}
 
