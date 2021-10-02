@@ -5,6 +5,8 @@ import (
 	adminHandler "github.com/opn-ooo/go-boilerplate/internal/http/admin/handlers"
 	appHandler "github.com/opn-ooo/go-boilerplate/internal/http/app/handlers"
 	appMiddlewares "github.com/opn-ooo/go-boilerplate/internal/http/app/middlewares"
+	// {{ REPLACE repository_import }}
+	// {{ REPLACE END repository_import }}
 	"github.com/opn-ooo/go-boilerplate/pkg/database"
 	"github.com/opn-ooo/go-boilerplate/pkg/logger"
 	commonMiddlewares "github.com/opn-ooo/go-boilerplate/pkg/middlewares"

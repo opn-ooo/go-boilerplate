@@ -9,7 +9,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-const projectDirName = "go-boilerplate"
+const projectDirName = "{{ .ProjectDirectory }}"
 
 func loadEnv() error {
 	var (
