@@ -45,10 +45,10 @@ func (repository *Mock{{ .Name.Singular.Title }}Repository) Delete(ctx context.C
 
 {{- range .Columns}}
 {{- if .IsCommonColumn }}
-{{- else -}}
-func (repository *Mock{{ .Name.Singular.Title }}Repository) By{{ .ObjectName }}(param {{ .ObjectType }}) func(*gorm.DB) *gorm.DB {
+{{- else }}
+func (repository *{{ .TableName.Singular.Title }}Repository) By{{ .ObjectName }}(param {{ .ObjectType }}) func(*gorm.DB) *gorm.DB {
     return func(db *gorm.DB) *gorm.DB {
-        return db.Where("{{ .TableName }}.{{ .Name.Original }} = ?", param)
+        return db.Where("{{ .TableName.Original }}.{{ .Name.Original }} = ?", param)
     }
 }
 {{- end -}}
