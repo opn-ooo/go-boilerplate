@@ -44,5 +44,12 @@ func GetFake{{ .Name.Singular.Title }}() (*{{ .Name.Singular.Title }}, error) {
 	entity.CreatedAt = time.Now()
 	entity.UpdatedAt = time.Now()
 
+{{- range .Relations}}
+{{- if eq .RelationType "belongsTo" }}
+    {{ .Entity.Name.Singular.Camel }}, _ := GetFake{{ .ObjectName }}()
+    entity.{{ .ObjectName }} = *{{ .Entity.Name.Singular.Camel }}
+{{- end -}}
+{{- end }}
+
 	return entity, nil
 }
