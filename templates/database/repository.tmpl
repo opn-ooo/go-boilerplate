@@ -16,6 +16,12 @@ type {{ .Name.Singular.Title }}RepositoryInterface interface {
 	Create(ctx context.Context, model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
 	Save(ctx context.Context, model *models.{{ .Name.Singular.Title }}) (*models.{{ .Name.Singular.Title }}, error)
     Delete(ctx context.Context, model *models.{{ .Name.Singular.Title }}) error
+{{- range .Columns}}
+{{- if .IsCommonColumn }}
+{{- else -}}
+    By{{ .ObjectName }}(param {{ .ObjectType }}) func(*gorm.DB) *gorm.DB
+{{- end -}}
+{{- end }}
 }
 
 // {{ .Name.Singular.Title }}Repository ...
@@ -111,6 +117,17 @@ func (repository *{{ .Name.Singular.Title }}Repository) Delete(ctx context.Conte
     }
     return nil
 }
+
+{{- range .Columns}}
+{{- if .IsCommonColumn }}
+{{- else -}}
+func (repository *{{ .Name.Singular.Title }}Repository) By{{ .ObjectName }}(param {{ .ObjectType }}) func(*gorm.DB) *gorm.DB {
+    return func(db *gorm.DB) *gorm.DB {
+        return db.Where("{{ .TableName }}.{{ .Name.Original }} = ?", param)
+    }
+}
+{{- end -}}
+{{- end }}
 
 // New{{ .Name.Singular.Title }}Repository ... Create new repository
 func New{{ .Name.Singular.Title }}Repository(database *gorm.DB) {{ .Name.Singular.Title }}RepositoryInterface {
