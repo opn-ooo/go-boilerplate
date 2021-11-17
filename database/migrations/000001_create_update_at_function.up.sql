@@ -1,6 +1,6 @@
 create function update_updated_at() returns trigger as '
   begin
-    new.accesstime := ''now'';
+    new.updated_at := ''now'';
     return new;
   end;
 ' language 'plpgsql';

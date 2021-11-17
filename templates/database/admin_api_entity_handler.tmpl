@@ -70,6 +70,7 @@ func (handler *Handler) {{ .Name.Plural.Title }}GetHandler(c *gin.Context) {
     )
     if err != nil {
         c.JSON(http.StatusInternalServerError, responses.NewInternalServerError(err))
+        return
     }
     response := responses.New{{ .Name.Plural.Title }}(data, count)
     c.JSON(http.StatusOK, response)
