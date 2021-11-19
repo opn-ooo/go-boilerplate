@@ -289,15 +289,11 @@ components:
       title: {{ .Name.Original }}
       type: object
       properties:
-        {{ .Name.Original }}:
+        data:
           type: array
           items:
             $ref: '#/components/schemas/{{ .Name.Singular.Snake }}'
-        count:
-          type: integer
-        offset:
-          type: integer
-        limit:
+        total_count:
           type: integer
       required:
         - {{ .Name.Original }}

@@ -4,8 +4,8 @@ import "{{ .PackageName }}/internal/models"
 
 // {{ .Name.Plural.Title }} ... {{ .Description }}
 type {{ .Name.Plural.Title }} struct {
-    Count int64 `json:"count"`
-	{{.Name.Plural.Title }} []{{.Name.Singular.Title }} `json:"{{.Name.Plural.Snake }}"`
+    TotalCount int64 `json:"total_count"`
+	Data []{{.Name.Singular.Title }} `json:"data"`
 }
 
 // New{{ .Name.Plural.Title }} ... Create new {{ .Name.Plural.Title }} response
@@ -15,8 +15,8 @@ func New{{ .Name.Plural.Title }}(models *[]models.{{ .Name.Singular.Title }}, co
         slice = append(slice, *New{{ .Name.Singular.Title }}(model))
     }
 	response := &{{ .Name.Plural.Title }}{
-	    Count: count,
-	    {{ .Name.Plural.Title }}: slice,
+	    TotalCount: count,
+	    Data: slice,
 	}
 	return response
 }
