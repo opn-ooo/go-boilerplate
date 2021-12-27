@@ -140,7 +140,7 @@ func (handler *Handler) {{ .Name.Plural.Title }}PostHandler(c *gin.Context) {
     c.JSON(http.StatusCreated, response)
 }
 
-// {{ .Name.Singular.Title }}PutHandler ... endpoint for POST endpoint for PUT /{{ .Name.Original }}/{id}
+// {{ .Name.Singular.Title }}PutHandler ... endpoint for PUT /{{ .Name.Original }}/{id}
 func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
 {{ if eq .PrimaryKey.DataType "uuid" }}
     id := c.Param("id")
@@ -196,7 +196,7 @@ func (handler *Handler) {{ .Name.Singular.Title }}PutHandler(c *gin.Context) {
     c.JSON(http.StatusOK, response)
 }
 
-// {{ .Name.Singular.Title }}DeleteHandler ... endpoint for DELETE endpoint for PUT /{{ .Name.Original }}/{id}
+// {{ .Name.Singular.Title }}DeleteHandler ... endpoint for DELETE /{{ .Name.Original }}/{id}
 func (handler *Handler) {{ .Name.Singular.Title }}DeleteHandler(c *gin.Context) {
 {{ if eq .PrimaryKey.DataType "uuid" }}
     id := c.Param("id")
