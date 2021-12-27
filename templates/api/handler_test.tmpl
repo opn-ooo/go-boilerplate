@@ -26,6 +26,7 @@ func TestHandler_{{ .HandlerName }}(t *testing.T) {
 		assert.Equal(t, http.StatusOK, w.Result().StatusCode)
 
 		response, err := ioutil.ReadAll(w.Result().Body)
+		assert.Nil(t, err)
 		var result map[string]interface{}
 		err = json.Unmarshal(response, &result)
 		assert.Nil(t, err)

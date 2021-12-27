@@ -30,7 +30,7 @@ func Test{{ .Name.Singular.Title }}Repository_First(t *testing.T) {
 		WillReturnRows(
 			sqlmock.NewRows([]string{"id"}).AddRow(id))
 
-	_, err := repository.First(nil, ByID(id))
+	_, err := repository.First(context.TODO(), ByID(id))
 	assert.NoError(t, err)
 }
 
