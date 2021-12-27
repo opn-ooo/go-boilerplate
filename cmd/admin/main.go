@@ -39,7 +39,7 @@ func Start() error {
 		zap.Uint("port", configInstance.App.APP.Port),
 	)
 
-	err = app.Run(":" + strconv.FormatUint(uint64(configInstance.App.APP.Port), 10))
+	err = app.Run(":" + strconv.FormatUint(uint64(configInstance.App.ADMIN.Port), 10))
 
 	return err
 }

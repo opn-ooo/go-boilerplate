@@ -17,6 +17,15 @@ type Config struct {
 			Timezone  string `default:"UTC" env:"APP_TIMEZONE"`
 			DebugMode bool   `default:"false" env:"APP_DEBUG_MODE"`
 		}
+        ADMIN struct {
+            URL       string `default:"http://localhost" env:"APP_URL"`
+            Port      uint   `default:"8081" env:"ADMIN_PORT"`
+            Timezone  string `default:"UTC" env:"APP_TIMEZONE"`
+            DebugMode bool   `default:"false" env:"APP_DEBUG_MODE"`
+
+            // Values of access-control-allow-origin in response header.
+            ResponseHeaderAllowOrigins []string `env:"ADMIN_RESPONSE_HEADER_ALLOW_ORIGINS"`
+        }
 		DevMode bool `default:"false" env:"DEV"`
 	}
 
