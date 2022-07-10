@@ -6,6 +6,9 @@ import (
 	"{{ .PackageName }}/internal/models"
 	"{{ .PackageName }}/pkg/database"
 	"gorm.io/gorm"
+{{- if .HasDecimal }}
+    "github.com/shopspring/decimal"
+{{ end }}
 )
 
 // {{ .Name.Singular.Title }}RepositoryInterface ...
