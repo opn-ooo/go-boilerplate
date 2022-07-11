@@ -5,6 +5,12 @@ import (
 
 	"{{ .PackageName }}/internal/models"
 	"gorm.io/gorm"
+{{- if .HasJSON }}
+    "gorm.io/datatypes"
+{{ end }}
+{{- if .HasDecimal }}
+    "github.com/shopspring/decimal"
+{{ end }}
 )
 
 // Mock{{ .Name.Singular.Title }}Repository ...
