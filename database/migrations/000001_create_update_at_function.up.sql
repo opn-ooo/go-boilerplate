@@ -4,3 +4,5 @@ create function update_updated_at() returns trigger as '
     return new;
   end;
 ' language 'plpgsql';
+
+create extension if not exists "uuid-ossp";
