@@ -24,8 +24,8 @@ func InitDatabase(configInstance *config.Config) (*gorm.DB, error) {
 		password: pgConfig.Password,
 	}
 
-	dsn := fmt.Sprintf("user=%s password=%s dbname=%s port=%s host=%s sslmode=disable",
-		pgConfig.User, pgConfig.Password, pgConfig.Name, pgConfig.Port, pgConfig.Host)
+	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s",
+		pgConfig.User, pgConfig.Password, pgConfig.Host, pgConfig.Port, pgConfig.Name)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
