@@ -65,18 +65,15 @@ func setupMiddlewares(app *gin.Engine, container *dig.Container) error {
 	var securityHeadersMiddleware gin.HandlerFunc
 	var requestIDMiddleware gin.HandlerFunc
 	var loggerMiddleware gin.HandlerFunc
-	var configInstance *config.Config
 
 	if err := container.Invoke(func(
 		_handler handlers.HandlerInterface,
 		_adminMiddlewares adminMiddlewares.Middlewares,
 		_commonMiddlewares commonMiddlewares.Middlewares,
-		_configInstance *config.Config,
 	) {
 		securityHeadersMiddleware = _commonMiddlewares.SecurityHeaders
 		requestIDMiddleware = _commonMiddlewares.RequestID
 		loggerMiddleware = _commonMiddlewares.Logger
-		configInstance = _configInstance
 	}); err != nil {
 		return err
 	}
