@@ -1,6 +1,6 @@
 create table if not exists {{ .Name.Original }} (
 {{- range .Columns}}
-    "{{ .Name.Original }}" {{ .DataType }}{{if .Primary }} primary key{{else}}{{if not .Nullable}} not null{{end}}{{end}}{{if ne .DefaultValue "" }} default {{ .DefaultValue }}{{end}}{{if .RelationTableName}} references {{.RelationTableName.Original}} (id){{end}},
+    "{{ .Name.Original }}" {{ .DataType }}{{if .Primary }} primary key{{else}}{{if not .Nullable}} not null{{end}}{{end}}{{if ne .DefaultValue "" }} default {{ .DefaultValue }}{{end}}{{if ne .RelationTableName.Original ""}} references {{.RelationTableName.Original}} (id){{end}},
 {{- end }}
     created_at timestamp with time zone default current_timestamp,
     updated_at timestamp with time zone default current_timestamp
