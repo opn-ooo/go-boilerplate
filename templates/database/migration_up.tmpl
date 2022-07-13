@@ -10,7 +10,7 @@ create trigger update_trigger before update on {{ .Name.Original }} for each row
   execute procedure update_updated_at();
 
 {{- range .Columns}}
-{{-if ne .RelationTableName.Original ""}}
+{{- if ne .RelationTableName.Original ""}}
 create index {{ .TableName.Original }}_{{ .Name.Original }}_idx on {{ .TableName.Original }} ({{ .Name.Original }});
 {{- end }}
 {{- end }}
