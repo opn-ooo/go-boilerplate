@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/opn-ooo/go-boilerplate/config"
 	"github.com/opn-ooo/go-boilerplate/pkg/database"
+	"github.com/opn-ooo/go-boilerplate/pkg/logger"
 )
 
 func createHandler() HandlerInterface {
@@ -12,5 +13,6 @@ func createHandler() HandlerInterface {
 	return NewHandler(
 		db,
 		configInstance,
+		logger.NewTestLogger(),
 	)
 }

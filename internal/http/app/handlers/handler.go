@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/opn-ooo/go-boilerplate/config"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
@@ -15,15 +16,18 @@ type HandlerInterface interface {
 type Handler struct {
 	db     *gorm.DB
 	config *config.Config
+	logger *zap.Logger
 }
 
 // NewHandler ...
 func NewHandler(
 	db *gorm.DB,
 	config *config.Config,
+	logger *zap.Logger,
 ) HandlerInterface {
 	return &Handler{
 		db:     db,
 		config: config,
+		logger: logger,
 	}
 }

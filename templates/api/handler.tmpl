@@ -21,8 +21,8 @@ func (handler *Handler) {{ .HandlerName }}(c *gin.Context) {
 {{ end }}
 {{- if ne .RequestSchemaName.Original "" }}
 	var update requests.{{ .RequestSchemaName.Default.Title }}
-	if err := c.Bind(&update); err != nil {
-		c.JSON(http.StatusBadRequest, responses.NewInvalidParameterErrorStatus(err))
+	if err := c.ShouldBindJSON(&update); err != nil {
+		c.JSON(http.StatusInternalServerError, responses.NewInvalidParameterErrorStatus(err))
 		return
 	}
 {{ end }}

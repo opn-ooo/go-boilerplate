@@ -25,5 +25,8 @@ func NewLogger(config *config.Config) (*zap.Logger, error) {
 	}
 
 	return logger, err
+}
 
+func NewTestLogger() *zap.Logger {
+	return zap.NewExample()
 }
